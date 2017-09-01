@@ -1,8 +1,11 @@
 <template lang="html">
+
   <div class="contenedor _alignCenter">
     <h5>Carga Formación (Parte Nro) {{ id }}</h5>
     <br>
+
     <fieldset>
+
       <div class="row">
 
         <div class="col m3">
@@ -32,8 +35,8 @@
 
       </div>
 
-
     </fieldset>
+
   </div>
 
 </template>

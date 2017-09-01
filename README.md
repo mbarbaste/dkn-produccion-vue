@@ -1,6 +1,6 @@
-# beauter-vue
+# dkn-produccion-vue
 
-> Prueba beauter CSS
+> Seguimiento de Formación de Piezas
 
 ## Build Setup
 
