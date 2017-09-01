@@ -111,15 +111,16 @@ export default {
   padding: 0;
 }
 .back-teal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: teal;
-  height: 100vh;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: teal !important;
+  height: 100vh !important;
 }
 
 fieldset {
-  padding: 50px;
+  padding: 50px !important;
+  background-color: #f3f3f3 !important;
 }
 
 .entrada {
@@ -136,9 +137,5 @@ fieldset {
   height: 34px;
   margin-bottom: 30px;
   padding: 5px;
-}
-
-fieldset {
-  background-color: #f3f3f3;
 }
 </style>
