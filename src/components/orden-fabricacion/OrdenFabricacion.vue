@@ -63,6 +63,7 @@
           <th class="_alignRight">Cantidad</th>
           <th class="_alignCenter">Máquina</th>
           <th class="_alignCenter">Fecha</th>
+          <th class="_alignRight">Formación</th>
           <th class="_alignRight">Bizcocho</th>
           <th class="_alignRight">Blanco</th>
           <th class="_alignCenter" colspan="2">Acciones</th>
@@ -76,6 +77,7 @@
           <td class="_alignRight">{{orden.cantidad}}&nbsp;&nbsp;</td>
           <td class="_alignCenter">{{orden.maquina}}</td>
           <td class="_alignCenter">{{orden.fecha_inicio | fecha}}</td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
           <!-- <td class="_alignCenter">
@@ -110,7 +112,7 @@
         <tr>
           <td colspan="2" class="_alignCenter"><strong>Totales</strong></td>
           <td class="_alignRight"><strong>{{ totalPiezas }}</strong>&nbsp;&nbsp;</td>
-          <td colspan="5"></td>
+          <td colspan="6"></td>
         </tr>
       </tbody>
 
@@ -135,6 +137,7 @@ export default {
         maquina: '',
         fecha_inicio: '',
         molde: '',
+        formacion: '',
         bizcocho: '',
         blanco: ''
       },
@@ -213,6 +216,9 @@ export default {
     blanco(id) {
       this.$router.push( {name: 'carga-blanco', params: { id: id } })
     },
+    formacion(id) {
+      this.$router.push( {name: 'carga-formacion', params: { id: id } })
+    },
     detalle(id) {
       this.$router.push( {name: 'ofab-detalle', params: { id: id } })
     },
@@ -226,6 +232,15 @@ export default {
 .faprint {
   font-size: 30px;
   color: #2F3E9E;
+}
+
+.faformacion {
+  color: #2F3E9E;
+}
+
+.faformacion:hover {
+  color: #3E50B4;
+  cursor: pointer;
 }
 
 .faprint:hover {

@@ -1,28 +1,28 @@
 <template lang="html">
   <div class="contenedor _alignCenter">
-    <h5>Carga de Horno Bizcocho (Parte Nro) {{ id }}</h5>
+    <h5>Carga Formación (Parte Nro) {{ id }}</h5>
     <br>
     <fieldset>
       <div class="row">
 
         <div class="col m3">
           <label for="modelo">Artículo</label>
-          <input class="_full-width" type="text" v-model="bizcocho.articulo" minlenght="6" maxlength="6" required disabled>
+          <input class="_full-width" type="text" v-model="formacion.articulo" minlenght="6" maxlength="6" required disabled>
         </div>
 
         <div class="col m2">
           <label for="modelo">Cantidad</label>
-          <input class="_full-width" type="number" v-model="bizcocho.cantidad" required>
+          <input class="_full-width" type="number" v-model="formacion.cantidad" required>
         </div>
 
         <div class="col m2">
           <label for="modelo">Rotura</label>
-          <input class="_full-width" type="number" v-model="bizcocho.rotura">
+          <input class="_full-width" type="number" v-model="formacion.rotura">
         </div>
 
         <div class="col m3">
           <label for="hasta">Fecha</label>
-          <input class="_full-width" type="date" v-model="bizcocho.fecha" required>
+          <input class="_full-width" type="date" v-model="formacion.fecha" required>
         </div>
 
         <div class="col m2">
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      bizcocho: {
+      formacion: {
         ofab_id: this.$route.params.id,
         articulo: '',
         cantidad: 0,
@@ -62,7 +62,7 @@ export default {
       'getHoy'
     ]),
     disabled() {
-      if ( this.bizcocho.cantidad < 1 ) {
+      if ( this.formacion.cantidad < 1 ) {
         return true;
       } else {
         return false;
@@ -72,7 +72,7 @@ export default {
   watch: {
     '$route'(to, from) {
       this.id = to.params.id
-      this.bizcocho.ofab_id = to.params.id
+      this.formacion.ofab_id = to.params.id
     }
   },
   methods: {
@@ -80,7 +80,7 @@ export default {
       'setProcessing'
     ]),
     resetForm() {
-      this.bizcocho = {
+      this.formacion = {
         //ofab_id: this.$route.params.id,
         articulo: '',
         cantidad: 0,
@@ -92,7 +92,7 @@ export default {
 
     this.setProcessing(true)
 
-    this.$http.post(this.getUrl + 'carga_bizcocho', this.bizcocho)
+    this.$http.post(this.getUrl + 'carga_formacion', this.formacion)
         .then( respuesta => {
           console.log(respuesta.data)
           this.resetForm()
@@ -110,7 +110,7 @@ export default {
         .then(respuesta => {
           if (respuesta.data.length > 0) {
             //this.ordenes.unshift(this.ofab)
-            this.bizcocho.articulo = respuesta.data[0].articulo
+            this.formacion.articulo = respuesta.data[0].articulo
             //this.closeForm()
           } else {
             console.log('No hay artículo o se ejecuto history.back')
@@ -120,12 +120,12 @@ export default {
     }
   },
   created() {
-    this.bizcocho.fecha = this.getHoy
+    this.formacion.fecha = this.getHoy
     this.getOrdenFabricacion(this.id)
 
   },
   updated() {
-    this.bizcocho.fecha = this.getHoy
+    this.formacion.fecha = this.getHoy
     this.getOrdenFabricacion(this.id)
   }
 }

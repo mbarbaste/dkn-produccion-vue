@@ -21,6 +21,11 @@ export default new Router({
       component: require('@/components/orden-fabricacion/CargaBlanco.vue')
     },
     {
+      path: '/carga-formacion/:id',
+      name: 'carga-formacion',
+      component: require('@/components/orden-fabricacion/CargaFormacion.vue')
+    },
+    {
       path: '/ofab-detalle/:id',
       name: 'ofab-detalle',
       component: require('@/components/orden-fabricacion/OfabDetalle.vue')

@@ -34,9 +34,31 @@
 
   </fieldset>
 
+  <br><br>
+  <fieldset>
+  <legend class="text-formacion _alignLeft">Detalle Formación</legend>
+  <br>
+  <table  class="_width100">
+    <thead>
+      <tr>
+        <th class="_alignCenter">Fecha</th>
+        <th class="_alignCenter">Cantidad</th>
+        <th class="_alignCenter">Rotura</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in formacionList">
+          <td class="_alignCenter">{{ item.fecha | fecha}}</td>
+          <td class="_alignCenter">{{ item.cantidad}}</td>
+          <td class="_alignCenter">{{ item.rotura}}</td>
+        </tr>
+      </tbody>
+  </table>
+</fieldset>
+
     <br><br>
     <fieldset>
-    <legend>Detalle Bizcocho</legend>
+    <legend class="text-bizcocho _alignLeft">Detalle Bizcocho</legend>
     <br>
     <table  class="_width100">
       <thead>
@@ -58,7 +80,7 @@
   <br><br>
   <fieldset>
     <!-- <h6>Detalle Carga Horno Alta</h6> -->
-    <legend>Detalle Carga Horno Alta</legend>
+    <legend  class="text-alta _alignLeft">Detalle Carga Horno Alta</legend>
     <br>
     <table  class="_width100">
       <thead>
@@ -99,7 +121,8 @@ export default {
         observaciones: ''
       },
       bizcochoList: [],
-      blancoList: []
+      blancoList: [],
+      formacionList: []
     }
   },
   computed: {
@@ -142,7 +165,7 @@ export default {
             this.bizcochoList = respuesta.data
 
           } else {
-            console.log('No se encontró')
+            console.log('No se encontró bizcocho')
           }
         })
       this.setProcessing(false)
@@ -157,7 +180,22 @@ export default {
             this.blancoList = respuesta.data
 
           } else {
-            console.log('No se encontró')
+            console.log('No se encontró blanco')
+          }
+        })
+      this.setProcessing(false)
+    }    ,
+    getCargaFormacion(oid) {
+      this.setProcessing(true)
+      this.$http.get(this.getUrl + 'carga_formacion/' + oid)
+        .then(respuesta => {
+          if (respuesta.data.length > 0) {
+
+            //console.log(respuesta.data)
+            this.formacionList = respuesta.data
+
+          } else {
+            console.log('No se encontró formacion')
           }
         })
       this.setProcessing(false)
@@ -165,6 +203,7 @@ export default {
   },
   created() {
     this.getOrdenFabricacion(this.id)
+    this.getCargaFormacion(this.id)
     this.getCargaBizcocho(this.id)
     this.getCargaBlanco(this.id)
   },
@@ -175,4 +214,15 @@ export default {
 </script>
 
 <style lang="css">
+.text-formacion {
+  color: #2F3E9E;
+}
+
+.text-bizcocho {
+  color: brown;
+}
+
+.text-alta {
+  color: #378D3B;
+}
 </style>
