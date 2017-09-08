@@ -125,8 +125,8 @@ export default {
 
   },
   updated() {
-    this.bizcocho.fecha = this.getHoy
-    this.getOrdenFabricacion(this.id)
+    // this.bizcocho.fecha = this.getHoy
+    // this.getOrdenFabricacion(this.id)
   }
 }
 </script>

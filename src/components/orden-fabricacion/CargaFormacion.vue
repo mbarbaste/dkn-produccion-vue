@@ -128,8 +128,8 @@ export default {
 
   },
   updated() {
-    this.formacion.fecha = this.getHoy
-    this.getOrdenFabricacion(this.id)
+    // this.formacion.fecha = this.getHoy
+    // this.getOrdenFabricacion(this.id)
   }
 }
 </script>

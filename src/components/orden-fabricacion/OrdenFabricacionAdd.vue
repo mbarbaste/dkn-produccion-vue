@@ -20,10 +20,9 @@
         <option value="Torno 2">Torno 2</option>
         <option value="Torno 3">Torno 3</option>
         <option value="Torno 4">Torno 4</option>
-        <option value="Torno 4">Torno 5</option>
-        <option value="Torno 5">Torno 6</option>
-        <option value="Torno 6">Torno Fuentes</option>
-        <option value="Torno Fuentes">Torno 6</option>
+        <option value="Torno 5">Torno 5</option>
+        <option value="Torno 6">Torno 6</option>
+        <option value="Torno Fuentes">Torno Fuentes</option>
         <option value="Torno Aleman">Torno Aleman</option>
         <option value="Torno Tazas Automático">Torno Tazas Automático</option>
         <option value="Torno Tazas Semi Aut.">Torno Tazas Semi Aut.</option>
@@ -96,7 +95,7 @@ export default {
           if (respuesta.data.status == 'ok') {
 
             this.$router.push('/orden-fabricacion')
-            
+
           } else {
             console.log('Error')
           }
