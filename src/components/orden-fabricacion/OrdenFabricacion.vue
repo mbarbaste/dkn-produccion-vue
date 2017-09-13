@@ -1,5 +1,5 @@
 <template>
-<div class="contenedor _alignCenter">
+<div class="contenedor-1100 _alignCenter">
 
   <h5>Ordenes de Fabricación</h5>
   <br>
@@ -10,45 +10,77 @@
       <div class="col m2">
         <label for="desde">Desde</label>
         <input class="_full-width" type="date" :input="getOrdenes" v-model="desde" required>
+
       </div>
 
       <div class="col m2">
-        <label for="hasta">Desde</label>
+        <label for="hasta">Hasta</label>
         <input class="_full-width" type="date" v-model="hasta" required>
       </div>
 
-      <div class="col m2">
+      <div class="col m1">
         <label for="modelo">Modelo</label>
         <input class="_full-width" :onkeyup="getOrdenes" type="text" v-model="articuloSearch" maxlength="6">
+      </div>
+
+      <div class="col m2">
+        <label for="maquina">Máquina</label>
+        <select class="_width100" id="maquina" v-model="maquinaSearch">
+          <option value="todas">Todas</option>
+          <option value="Torno 1">Torno 1</option>
+          <option value="Torno 2">Torno 2</option>
+          <option value="Torno 3">Torno 3</option>
+          <option value="Torno 4">Torno 4</option>
+          <option value="Torno 5">Torno 5</option>
+          <option value="Torno 6">Torno 6</option>
+          <option value="Torno Fuentes">Torno Fuentes</option>
+          <option value="Torno Aleman">Torno Aleman</option>
+          <option value="Torno Tazas Automático">Torno Tazas Automático</option>
+          <option value="Torno Tazas Semi Aut.">Torno Tazas Semi Aut.</option>
+          <option value="Torno Tazas Vicentini">Torno Tazas Vicentini</option>
+          <option value="Colado Manual">Colado Manual</option>
+          <option value="Colado Automático">Colado Automático</option>
+          <option value="Colado Fuentes">Colado Fuentes</option>
+          <option value="Prensa">Prensa</option>
+        </select>
+      </div>
+
+      <div class="col m2">
+        <label for="estado">Estado</label>
+        <select class="_width100" id="maquina" v-model="estadoSearch">
+          <option value="todos">Todos</option>
+          <option value="proceso">En Proceso</option>
+          <option value="finalizados">Finalizados</option>
+        </select>
       </div>
 
       <div class="col m1">
         <label for="buscar">&nbsp;</label>
         <!-- <button class="p-normal" @click="getOrdenes">Buscar</button> -->
-        &nbsp;&nbsp;
         <a @click="getOrdenes" >
-            <i class="fa fa-search fasearch hand" aria-hidden="true"></i>
+            <i title="Buscar" class="fa fa-search fasearch hand" aria-hidden="true"></i>
         </a>
+
       </div>
 
 
-
+<!--
       <div class="col m3">
         <label for="xx">&nbsp;</label>
-      </div>
+      </div> -->
 
       <div class="col m1">
-        <label for="buscar">&nbsp;</label>
+        <label for="reporte">&nbsp;</label>
         <a :href="reporte" target="_blank">
-            <i class="fa fa-print faprint" aria-hidden="true"></i>
+            <i title="Imprimir" class="fa fa-print faprint" aria-hidden="true"></i>
         </a>
-
-
       </div>
+
       <div class="col m1">
         <label for="buscar">&nbsp;</label>
-        <router-link to="/orden-fabricacion-add"><i class="fa fa-plus-circle faplus" aria-hidden="true"></i></router-link>
+        <router-link to="/orden-fabricacion-add"><i title="Agregar Orden de Fabricación" class="fa fa-plus-circle faplus" aria-hidden="true"></i></router-link>
       </div>
+
 
     </div>
   </fieldset>
@@ -78,19 +110,9 @@
           <td class="_alignCenter">{{orden.maquina}}</td>
           <td class="_alignCenter">{{orden.fecha_inicio | fecha}}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
-          <!-- <td class="_alignCenter">
-            <a @click="detalle(orden.id)">
-                <i class="fa fa-eye hand" aria-hidden="true"></i>
-            </a>
-          </td>
-          <td class="_alignCenter">
-            <a :href="'http://produccion.dynalias.com/reportes/pdf/ofab_ficha?q=' + orden.id" target="_blank">
-                <i class="fa fa-id-card _warning" aria-hidden="true"></i>
-            </a>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion > 0" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null  && orden.bizcocho > 0" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
 
-          </td> -->
           <td class="_alignCenter">
             <a @click="detalle(orden.id)">
                 <i class="fa fa-eye hand p-dark" aria-hidden="true"></i>
@@ -107,6 +129,7 @@
                 <i class="fa fa-info-circle hand azul" aria-hidden="true"></i>
             </a>
             &nbsp;&nbsp;
+
           </td>
         </tr>
         <tr>
@@ -136,6 +159,7 @@ export default {
         cantidad: 0,
         maquina: '',
         fecha_inicio: '',
+        fecha_fin: '',
         molde: '',
         formacion: '',
         bizcocho: '',
@@ -146,7 +170,11 @@ export default {
       desde: '',
       hasta: '',
       modelo: '',
-      articuloSearch: ''
+      articuloSearch: '',
+      maquinaSearch: 'todas',
+      estadoSearch: 'todos',
+      chequeado: false,
+      check: ''
     }
   },
   computed: {
@@ -158,7 +186,7 @@ export default {
       'getHasta'
     ]),
     reporte() {
-      return 'http://produccion.dynalias.com/reportes/pdf/ofab_lista?q=' + this.desde + '|' + this.hasta + '|' + this.articuloSearch
+      return 'http://produccion.dynalias.com/reportes/pdf/ofab_lista?q=' + this.desde + '|' + this.hasta + '|' + this.articuloSearch + '|' + this.maquinaSearch + '|' + this.estadoSearch
     },
     totalPiezas() {
       let cantidadPiezas = 0
@@ -179,16 +207,25 @@ export default {
       this.setDesde(this.desde)
       this.setHasta(this.hasta)
       this.setProcessing(true)
+
       let articuloSearch = ''
+      let maquinaSearch = ''
+      let estadoSearch = ''
+
       if (this.articuloSearch.length > 0) {
         articuloSearch = '/' + this.articuloSearch
       } else {
         articuloSearch = '/todos'
       }
-      this.$http.get(this.getUrl + 'ofab/' + this.desde + '/' + this.hasta + articuloSearch)
+
+        maquinaSearch = '/' + this.maquinaSearch
+
+        estadoSearch = '/' + this.estadoSearch
+
+      this.$http.get(this.getUrl + 'ofab/' + this.desde + '/' + this.hasta + articuloSearch + maquinaSearch + estadoSearch)
         .then(respuesta => {
           this.ordenes = respuesta.data
-          //console.log(respuesta.data)
+          // runconsole.log(respuesta.data)
         })
       this.setProcessing(false)
     },

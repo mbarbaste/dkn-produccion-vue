@@ -44,6 +44,13 @@ export default {
   margin-top: 40px;
 }
 
+.contenedor-1100 {
+  /*width: 700px;*/
+  max-width: 1100px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
 .borde {
   border: 1px solid #e1e1e1;
   padding: 20px;
