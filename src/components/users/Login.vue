@@ -1,5 +1,8 @@
 <template>
 <div class="back-teal">
+
+
+
   <div class="contenedor _alignCenter w-400">
     <form>
       <fieldset>
@@ -9,6 +12,15 @@
             <br>
           </div>
         </div>
+
+        <div class="row" v-if="errorLogin">
+          <div class="alert _danger _shadow _box">
+            <span class="-close" @click="closeError">×</span>
+            <strong>Oops..</strong> Credenciales Inválidas
+            <br>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col m12">
             <input class="input entrada" type="text" placeholder="Usuario" v-model="user.username" required>
@@ -23,6 +35,9 @@
         <!-- <br> -->
       </fieldset>
     </form>
+
+
+
   </div>
 </div>
 </template>
@@ -72,6 +87,9 @@ export default {
       'setLogged',
       'setProcessing'
     ]),
+    closeError() {
+      this.errorLogin = false
+    },
     login(e) {
       e.preventDefault();
       // fetch usuario
