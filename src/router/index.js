@@ -11,6 +11,16 @@ export default new Router({
       component: require('@/components/home/Home.vue')
     },
     {
+      path: '/acerca',
+      name: 'acerca',
+      component: require('@/components/acerca/Acerca.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: require('@/components/users/Profile.vue')
+    },
+    {
       path: '/carga-bizcocho/:id',
       name: 'carga-bizcocho',
       component: require('@/components/orden-fabricacion/CargaBizcocho.vue')

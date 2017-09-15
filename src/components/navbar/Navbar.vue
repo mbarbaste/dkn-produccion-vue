@@ -8,12 +8,12 @@
     <router-link tag="li" to="/images"  style="float:right;"><a>Images</a></router-link>
     <router-link tag="li" to="/text"  style="float:right;"><a>Text</a></router-link> -->
     <!-- <li style="float:right;"><a href="#" class="active">Active</a></li> -->
-    <router-link tag="li" to="/"  style="float:right;"><a>Acerca</a></router-link>
+    <router-link tag="li" to="/acerca"  style="float:right;"><a>Acerca</a></router-link>
 
     <li class="dropdown"  style="float:right;">
       <a href="#">Perfil</a>
       <div class="dropdown-content">
-        <router-link to="/"><a>{{getUser}}</a></router-link>
+        <router-link to="/profile"><a>{{getUser}}</a></router-link>
         <a @click="logout" class="submenu">Logout</a>
       </div>
     </li>

@@ -8,6 +8,8 @@ export default new Vuex.Store({
     logged: false,
     username: '',
     displayName: '',
+    email: '',
+    level: 0,
     token: '',
     showModal: '',
     processing: false,
@@ -59,12 +61,16 @@ export default new Vuex.Store({
         localStorage.removeItem('userStatus');
         state.logged = false
         state.username = ''
-        state.displayName = ''
+        state.displayName = '',
+        state.email = '',
+        state.level = 0,
         state.token = ''
       } else {
         state.logged = true,
         state.username = payload.username
         state.displayName = payload.displayName
+        state.email = payload.email
+        state.level = payload.level
         state.token = payload.token
         localStorage.setItem('userStatus', JSON.stringify(payload));
       }
