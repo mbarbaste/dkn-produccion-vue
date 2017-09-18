@@ -109,7 +109,7 @@
           <td class="_alignRight">{{orden.cantidad}}&nbsp;&nbsp;</td>
           <td class="_alignCenter">{{orden.maquina}}</td>
           <td class="_alignCenter">{{orden.fecha_inicio | fecha}}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion_cerrada_fecha == null" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion > 0" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null  && orden.bizcocho > 0" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
 
@@ -163,7 +163,8 @@ export default {
         molde: '',
         formacion: '',
         bizcocho: '',
-        blanco: ''
+        blanco: '',
+        formacion_cerrada_fecha: ''
       },
       ordenes: [],
       hoy: '',
@@ -225,7 +226,7 @@ export default {
       this.$http.get(this.getUrl + 'ofab/' + this.desde + '/' + this.hasta + articuloSearch + maquinaSearch + estadoSearch)
         .then(respuesta => {
           this.ordenes = respuesta.data
-          // runconsole.log(respuesta.data)
+          console.log(respuesta.data)
         })
       this.setProcessing(false)
     },

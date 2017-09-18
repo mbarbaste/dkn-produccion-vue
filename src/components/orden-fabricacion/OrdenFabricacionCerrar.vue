@@ -143,7 +143,7 @@ export default {
 
       let payload
 
-      payload = { id: this.id}
+      payload = { id: this.id, fecha: this.getHoy, observaciones: this.ofab.observaciones }
 
       this.$http.post(this.getUrl + 'cerrar_formacion', payload)
         .then(respuesta => {
