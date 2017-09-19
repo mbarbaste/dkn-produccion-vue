@@ -26,10 +26,7 @@
     </tbody>
   </table>
 
-  <fieldset v-if="ofab.observaciones.lenght !== 0">
-    <legend class="_alignLeft">Observaciones</legend>
-    <p class="_alignLeft">{{ofab.observaciones}}</p>
-  </fieldset>
+
   <br>
 
   </fieldset>
@@ -99,6 +96,13 @@
         </tbody>
     </table>
   </fieldset>
+  <br><br>
+  
+  <fieldset v-if="ofab.observaciones.lenght !== 0">
+    <legend class="_alignLeft">Observaciones</legend>
+    <p class="_alignLeft">{{ofab.observaciones}}</p>
+  </fieldset>
+
   <br><br>
   </div>
 </template>

@@ -226,7 +226,7 @@ export default {
       this.$http.get(this.getUrl + 'ofab/' + this.desde + '/' + this.hasta + articuloSearch + maquinaSearch + estadoSearch)
         .then(respuesta => {
           this.ordenes = respuesta.data
-          console.log(respuesta.data)
+          //console.log(respuesta.data)
         })
       this.setProcessing(false)
     },
