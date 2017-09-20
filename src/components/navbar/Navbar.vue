@@ -23,8 +23,7 @@
       <router-link to="/orden-fabricacion">Fabricación</router-link>
       <div class="dropdown-content">
         <router-link to="/orden-fabricacion" class="submenu">Ordenes</router-link>
-        <router-link to="/stocks/bizcocho" class="submenu">Bizcocho</router-link>
-        <router-link to="/stocks/blanco" class="submenu">Blanco</router-link>
+        <router-link to="/stocks" class="submenu">Stocks</router-link>
         <router-link to="/informes" class="submenu">Informes</router-link>
       </div>
     </li>

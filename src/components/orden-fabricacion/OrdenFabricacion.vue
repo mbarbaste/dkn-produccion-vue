@@ -63,12 +63,6 @@
 
       </div>
 
-
-<!--
-      <div class="col m3">
-        <label for="xx">&nbsp;</label>
-      </div> -->
-
       <div class="col m1">
         <label for="reporte">&nbsp;</label>
         <a :href="reporte" target="_blank">
@@ -86,7 +80,12 @@
   </fieldset>
 
   <br><br>
-  <fieldset>
+
+  <div v-if="ordenes.length == 0">
+    <p>No hay <strong>Ordenes de Fabricación</strong> con los parámetros actuales.</p>
+  </div>
+
+  <fieldset v-if="ordenes.length > 0">
     <table class="_width100">
       <thead>
         <tr>
@@ -220,7 +219,6 @@ export default {
       }
 
         maquinaSearch = '/' + this.maquinaSearch
-
         estadoSearch = '/' + this.estadoSearch
 
       this.$http.get(this.getUrl + 'ofab/' + this.desde + '/' + this.hasta + articuloSearch + maquinaSearch + estadoSearch)

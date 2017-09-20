@@ -91,14 +91,9 @@ export default new Router({
       component: require('@/components/mockups/List')
     },
     {
-      path: '/stocks/bizcocho',
-      name: 'bizcocho',
-      component: require('@/components/stocks/Bizcocho')
-    },
-    {
-      path: '/stocks/blanco',
-      name: 'blanco',
-      component: require('@/components/stocks/Blanco')
+      path: '/stocks',
+      name: 'stocks',
+      component: require('@/components/stocks/Stocks')
     },
     {
       path: '/informes',

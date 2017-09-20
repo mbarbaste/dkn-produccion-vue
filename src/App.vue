@@ -162,4 +162,53 @@ input::-webkit-datetime-edit-fields-wrapper {
 .p-text {
   color: #212121;
 }
+
+.faprint {
+  font-size: 30px;
+  color: #2F3E9E;
+}
+
+.faformacion {
+  color: #2F3E9E;
+}
+
+.faformacion:hover {
+  color: #3E50B4;
+  cursor: pointer;
+}
+
+.faprint:hover {
+  font-size: 30px;
+  color: #3E50B4;
+  cursor: pointer;
+}
+
+.faplus {
+  font-size: 30px;
+  color: #FE5621;
+}
+
+.fasearch {
+  font-size: 30px;
+  color: #378D3B;
+}
+
+.fasearch:hover {
+  font-size: 30px;
+  color: #4BAE4F;
+}
+
+.faplus:hover {
+  font-size: 30px;
+  color: red;
+  cursor: pointer;
+}
+
+.azul {
+  color: #2F3E9E;
+}
+
+.azul:hover {
+  color: #3E50B4;
+}
 </style>

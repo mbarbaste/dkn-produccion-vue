@@ -35,6 +35,7 @@
   <fieldset>
   <legend class="text-formacion _alignLeft">Detalle Formación</legend>
   <br>
+  <p  v-if="formacionList.length == 0"><strong>No</strong> hay nada registrado.</p>
   <table  class="_width100">
     <thead>
       <tr>
@@ -57,7 +58,8 @@
     <fieldset>
     <legend class="text-bizcocho _alignLeft">Detalle Bizcocho</legend>
     <br>
-    <table  class="_width100">
+    <p  v-if="bizcochoList.length == 0"><strong>No</strong> hay nada registrado.</p>
+    <table  class="_width100" v-if="bizcochoList.length > 0">
       <thead>
         <tr>
           <th class="_alignCenter">Fecha</th>
@@ -79,7 +81,8 @@
     <!-- <h6>Detalle Carga Horno Alta</h6> -->
     <legend  class="text-alta _alignLeft">Detalle Carga Horno Alta</legend>
     <br>
-    <table  class="_width100">
+    <p  v-if="blancoList.length == 0"><strong>No</strong> hay nada registrado.</p>
+    <table  class="_width100" v-if="blancoList.length > 0">
       <thead>
         <tr>
           <th class="_alignCenter">Fecha</th>
@@ -97,8 +100,8 @@
     </table>
   </fieldset>
   <br><br>
-  
-  <fieldset v-if="ofab.observaciones.lenght !== 0">
+
+  <fieldset v-if="ofab.observaciones.length !== 0">
     <legend class="_alignLeft">Observaciones</legend>
     <p class="_alignLeft">{{ofab.observaciones}}</p>
   </fieldset>
@@ -154,7 +157,7 @@ export default {
             this.ofab = respuesta.data[0]
 
           } else {
-            console.log('No hay artículo o se ejecuto history.back')
+            //console.log('No hay artículo o se ejecuto history.back')
           }
         })
       this.setProcessing(false)
@@ -169,7 +172,7 @@ export default {
             this.bizcochoList = respuesta.data
 
           } else {
-            console.log('No se encontró bizcocho')
+            //console.log('No se encontró bizcocho')
           }
         })
       this.setProcessing(false)
@@ -184,7 +187,7 @@ export default {
             this.blancoList = respuesta.data
 
           } else {
-            console.log('No se encontró blanco')
+            //console.log('No se encontró blanco')
           }
         })
       this.setProcessing(false)
@@ -199,7 +202,7 @@ export default {
             this.formacionList = respuesta.data
 
           } else {
-            console.log('No se encontró formacion')
+            //console.log('No se encontró formacion')
           }
         })
       this.setProcessing(false)
