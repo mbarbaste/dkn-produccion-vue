@@ -1,5 +1,5 @@
 <template lang="html">
-<div  class="contenedor _alignCenter w-400">
+<div  class="contenedor _alignCenter w-1000">
 <h5>Nueva Orden de Fabricación</h5>
 <br>
 <fieldset>
@@ -124,4 +124,7 @@ export default {
 </script>
 
 <style lang="css">
+.w-1000 {
+  max-width: 1000px;
+}
 </style>
