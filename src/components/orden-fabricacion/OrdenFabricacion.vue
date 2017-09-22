@@ -4,6 +4,50 @@
   <h5>Ordenes de Fabricación</h5>
   <br>
 
+
+  <div class="modalbox-modal" align="center" :class="{ dBlock: showModal }">
+    <div class="modalbox-modal-content w-700">
+      <span class="-close" @click="closeModal">✖</span>
+
+      <div class="row">
+        <p></p>
+        <p><strong>Consulta de Stock</strong></p>
+        <hr>
+      </div>
+
+      <div class="row">
+          <div class="col m2 _alignLeft">
+            <label for="articulo">Artículo</label>
+            <input class="_full-width" id="articulo" type="text" v-model="articulo.articulo" placeholder="Artículo" disabled>
+          </div>
+
+          <div class="col m4 _alignLeft">
+            <label for="descrip">Descripción</label>
+            <input class="_full-width" id="descrip" type="text" v-model="articulo.descrip" placeholder="Descripción" disabled>
+          </div>
+
+          <div class="col m2 _alignLeft">
+            <label for="formacion">St.Formación</label>
+            <input class="_full-width" id="formacion" type="text" v-model="articulo.stock_formacion" disabled>
+          </div>
+
+          <div class="col m2 _alignLeft">
+            <label for="bizcocho">St.Bizcocho</label>
+            <input class="_full-width" id="bizcocho" type="text" v-model="articulo.stock_bizcocho" disabled>
+          </div>
+          <div class="col m2 _alignLeft">
+            <label for="blanco">St.Blanco</label>
+            <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_blanco" disabled>
+          </div>
+          <!-- <div class="col m2 _alignLeft">
+            <label for="acciones">&nbsp;</label>
+            <button class="_primary" @click="closeModal">Cerrar</button>
+          </div> -->
+      </div>
+
+    </div>
+  </div>
+
   <fieldset>
     <div class="row">
 
@@ -114,18 +158,22 @@
 
           <td class="_alignCenter">
             <a @click="detalle(orden.id)">
-                <i class="fa fa-eye hand p-dark" aria-hidden="true"></i>
+                <i title="Detalle" class="fa fa-eye hand p-dark" aria-hidden="true"></i>
             </a>
             &nbsp;&nbsp;
-            <a :href="'http://produccion.dynalias.com/reportes/pdf/ofab_ficha?q=' + orden.id" target="_blank" v-if="orden.fecha_fin == null">
+            <a title="Ficha" :href="'http://produccion.dynalias.com/reportes/pdf/ofab_ficha?q=' + orden.id" target="_blank" v-if="orden.fecha_fin == null">
                 <i class="fa fa-id-card naranja" aria-hidden="true"></i>
             </a>
             &nbsp;&nbsp;
             <a @click="cerrar(orden.id)" v-if="orden.fecha_fin == null">
-                <i class="fa fa-briefcase hand p-text" aria-hidden="true"></i>
+                <i title="Cerrar Orden" class="fa fa-briefcase hand p-text" aria-hidden="true"></i>
             </a>
             <a @click="cerrar(orden.id)" v-if="orden.fecha_fin !== null">
                 <i class="fa fa-info-circle hand azul" aria-hidden="true"></i>
+            </a>
+            &nbsp;&nbsp;
+            <a @click="stock(orden.articulo)">
+                <i title="Stock" class="fa fa-industry hand azul" aria-hidden="true"></i>
             </a>
             &nbsp;&nbsp;
 
@@ -165,6 +213,14 @@ export default {
         blanco: '',
         formacion_cerrada_fecha: ''
       },
+      articulo: {
+        id: 0,
+        articulo: '',
+        descrip: '',
+        stock_formacion: 0,
+        stock_blanco: 0,
+        stock_bizcocho: 0
+      },
       ordenes: [],
       hoy: '',
       desde: '',
@@ -174,7 +230,8 @@ export default {
       maquinaSearch: 'todas',
       estadoSearch: 'todos',
       chequeado: false,
-      check: ''
+      check: '',
+      showModal: false
     }
   },
   computed: {
@@ -260,6 +317,18 @@ export default {
     },
     cerrar(id) {
       this.$router.push( {name: 'orden-fabricacion-cerrar', params: { id: id } })
+    },
+    stock(articulo) {
+      this.$http.get(this.getUrl + 'stocks/' + articulo)
+        .then(respuesta => {
+
+            this.articulo = respuesta.data[0]
+            this.showModal = true
+
+        })
+    },
+    closeModal() {
+      this.showModal = false;
     }
   }
 }

@@ -1,40 +1,37 @@
 <template lang="html">
   <div class="contenedor _alignCenter w-700">
 
-  <div class="modalbox-modal" align="center" :class="{ dBlock: showModal }">
-    <div class="modalbox-modal-content w-700">
-      <span class="-close" id="modalbox-close1" @click="closeModal">✖</span>
+    <div class="modalbox-modal" align="center" :class="{ dBlock: showModal }">
+      <div class="modalbox-modal-content w-700">
+        <span class="-close" id="modalbox-close1" @click="closeModal">✖</span>
 
-      <div class="row">
-          <div class="col m3 _alignLeft">
-            <label for="articulo">Artículo</label>
-            <input class="_full-width" id="articulo" type="text" v-model="articulo.articulo" placeholder="Artículo" disabled>
-          </div>
+        <div class="row">
+            <div class="col m3 _alignLeft">
+              <label for="articulo">Artículo</label>
+              <input class="_full-width" id="articulo" type="text" v-model="articulo.articulo" placeholder="Artículo" disabled>
+            </div>
 
-          <div class="col m2 _alignLeft">
-            <label for="formacion">St.Formación</label>
-            <input class="_full-width" id="formacion" type="text" v-model="articulo.stock_formacion">
-          </div>
+            <div class="col m2 _alignLeft">
+              <label for="formacion">St.Formación</label>
+              <input class="_full-width" id="formacion" type="text" v-model="articulo.stock_formacion">
+            </div>
 
-          <div class="col m2 _alignLeft">
-            <label for="bizcocho">St.Bizcocho</label>
-            <input class="_full-width" id="bizcocho" type="text" v-model="articulo.stock_bizcocho">
-          </div>
-          <div class="col m2 _alignLeft">
-            <label for="blanco">St.Blanco</label>
-            <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_blanco">
-          </div>
-          <div class="col m2 _alignLeft">
-            <label for="acciones">&nbsp;</label>
-            <button class="_danger" @click="saveStock">Guardar</button>
-          </div>
+            <div class="col m2 _alignLeft">
+              <label for="bizcocho">St.Bizcocho</label>
+              <input class="_full-width" id="bizcocho" type="text" v-model="articulo.stock_bizcocho">
+            </div>
+            <div class="col m2 _alignLeft">
+              <label for="blanco">St.Blanco</label>
+              <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_blanco">
+            </div>
+            <div class="col m2 _alignLeft">
+              <label for="acciones">&nbsp;</label>
+              <button class="_danger" @click="saveStock">Guardar</button>
+            </div>
+        </div>
+
       </div>
-
-
-
-
     </div>
-  </div>
 
 
     <h5>Stocks</h5>
@@ -43,7 +40,7 @@
       <div class="row">
 
         <div class="col m4">
-            <input class="_full-width" type="text" id="aSearch" name="articuloSearch" v-model="articuloSearch" maxlength="6" @keyup.enter="test">
+            <input class="_full-width" type="text" id="aSearch" name="articuloSearch" v-model="articuloSearch" maxlength="6" @keyup.enter="searchArticulo">
         </div>
 
         <div class="col m2">
@@ -170,7 +167,7 @@ export default {
       this.showModal = true
       console.log(this.articulo)
     },
-    test(e) {
+    searchArticulo(e) {
       if(this.articuloSearch.length == 0) {
         this.articulos = []
         return
@@ -216,11 +213,5 @@ export default {
 
 .w-400 {
   max-width: 400px;
-}
-.dBlock {
-  display: block !important;
-}
-.dNone {
-  display: none !important;
 }
 </style>

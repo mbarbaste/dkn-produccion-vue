@@ -211,4 +211,12 @@ input::-webkit-datetime-edit-fields-wrapper {
 .azul:hover {
   color: #3E50B4;
 }
+
+
+.dBlock {
+  display: block !important;
+}
+.dNone {
+  display: none !important;
+}
 </style>
