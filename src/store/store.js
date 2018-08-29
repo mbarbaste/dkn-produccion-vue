@@ -14,18 +14,21 @@ export default new Vuex.Store({
     showModal: '',
     processing: false,
     hoy: new Date().toISOString().substring(0, 10),
-    url: 'http://apidata.dynalias.com/api/',
+    url: 'http://apitest.dynalias.com/api/',
     desde: new Date().toISOString().substring(0, 10),
     hasta: new Date().toISOString().substring(0, 10)
     //url: 'http://slimapp.com/api/'
   },
+
   getters: {
     getUrl: state => {
       return state.url
     },
+
     getLogged: state => {
       return state.logged
     },
+
     getUserStatus: state => {
       if (localStorage.getItem("userStatus") !== null) {
         let session
@@ -36,26 +39,38 @@ export default new Vuex.Store({
         }
       }
     },
+
     getProcessing: state => {
       return state.processing
     },
+
     getUser: state => {
       return state.displayName
     },
+
     getHoy: state => {
       return state.hoy
     },
+
     getDesde: state => {
       return state.desde
     },
+
     getHasta: state => {
       return state.hasta
+    },
+
+    getLevel: state => {
+      return state.level
     }
   },
+
   mutations: {
     setProcessing: (state, payload) => {
       state.processing = payload
+      console.log("Processing:" , payload)
     },
+
     setLogged: (state, payload) => {
       if (payload === null) {
         localStorage.removeItem('userStatus');
@@ -70,14 +85,16 @@ export default new Vuex.Store({
         state.username = payload.username
         state.displayName = payload.displayName
         state.email = payload.email
-        state.level = payload.level
+        state.level = parseInt(payload.level)
         state.token = payload.token
         localStorage.setItem('userStatus', JSON.stringify(payload));
       }
     },
+
     setDesde: (state, payload) => {
       state.desde = payload
     },
+    
     setHasta: (state, payload) => {
       state.hasta = payload
     }

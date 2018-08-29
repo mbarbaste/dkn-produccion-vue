@@ -29,6 +29,7 @@ router.beforeEach((to, from, next) => {
         store.state.username =  session.username
         store.state.displayName =  session.displayName
         store.state.token = session.token
+        store.state.level = parseInt(session.level)
         next()
       } else {
         next('/login')

@@ -1,7 +1,9 @@
 <template lang="html">
   <div class="contenedor _alignCenter">
+
     <h5>Carga de Horno de Alta (Parte Nro) {{ id }}</h5>
     <br>
+
     <fieldset>
       <div class="row">
 
@@ -37,8 +39,8 @@
 
       </div>
 
-
     </fieldset>
+
   </div>
 
 </template>
@@ -61,12 +63,14 @@ export default {
       }
     }
   },
+
   computed: {
     ...mapGetters([
       'getProcessing',
       'getUrl',
       'getHoy'
     ]),
+
     disabled() {
       if ( this.blanco.cantidad < 1 || this.blanco.horno.length < 2) {
         return true;
@@ -75,12 +79,14 @@ export default {
       }
     }
   },
+
   watch: {
     '$route'(to, from) {
       this.id = to.params.id
       this.blanco.ofab_id = to.params.id
     }
   },
+
   methods: {
     ...mapMutations([
       'setProcessing'
@@ -94,6 +100,7 @@ export default {
         horno: ''
       }
     },
+
     save() {
       if(this.disabled) { return }
 
@@ -111,6 +118,7 @@ export default {
 
       this.setProcessing(false)
     },
+
     getOrdenFabricacion(id) {
       this.setProcessing(true)
       this.$http.get(this.getUrl + 'ofab/' + id)
@@ -126,6 +134,7 @@ export default {
         this.setProcessing(false)
     }
   },
+  
   created() {
     this.blanco.fecha = this.getHoy
     this.getOrdenFabricacion(this.id)

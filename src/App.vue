@@ -1,6 +1,5 @@
 <template>
 <div id="app">
-  <!-- <img src="./assets/logo.png"> -->
   <app-nav v-if="getLogged"></app-nav>
   <transition name="slide" mode="out-in">
     <!-- <keep-alive> -->
@@ -15,12 +14,14 @@ import Navbar from '@/components/navbar/Navbar';
 import { mapGetters } from 'vuex'
 
 export default {
+
   computed: {
       ...mapGetters([
       'getLogged',
       'getUserStatus'
       ])
   },
+
   components: {
     appNav: Navbar
   }
@@ -28,8 +29,6 @@ export default {
 </script>
 <style>
 * {
-  /*font-family: 'Roboto', sans-serif;*/
-  /*font-family: 'Ubuntu', sans-serif;*/
   font-family: 'Lato', sans-serif;
 }
 
@@ -188,6 +187,17 @@ input::-webkit-datetime-edit-fields-wrapper {
   color: #FE5621;
 }
 
+.fared {
+  font-size: 30px;
+  color: #FE5621;
+}
+
+.fared:hover {
+  font-size: 30px;
+  color: #FF0000;
+  cursor: pointer;
+}
+
 .fasearch {
   font-size: 30px;
   color: #378D3B;
@@ -212,6 +222,9 @@ input::-webkit-datetime-edit-fields-wrapper {
   color: #3E50B4;
 }
 
+.mano:hover {
+  cursor: pointer;
+}
 
 .dBlock {
   display: block !important;
@@ -219,4 +232,6 @@ input::-webkit-datetime-edit-fields-wrapper {
 .dNone {
   display: none !important;
 }
+
+
 </style>

@@ -116,7 +116,8 @@
 
       <div class="col m1">
         <label for="buscar">&nbsp;</label>
-        <router-link to="/orden-fabricacion-add"><i title="Agregar Orden de Fabricación" class="fa fa-plus-circle faplus" aria-hidden="true"></i></router-link>
+        
+        <router-link to="/orden-fabricacion-add" v-if="getLevel > 5"><i title="Agregar Orden de Fabricación" class="fa fa-plus-circle faplus" aria-hidden="true"></i></router-link>
       </div>
 
 
@@ -140,21 +141,23 @@
           <th class="_alignCenter">Fecha</th>
           <th class="_alignRight">Formación</th>
           <th class="_alignRight">Bizcocho</th>
-          <th class="_alignRight">Blanco</th>
+          <th class="_alignRight">Horno Alta</th>
+          <th class="_alignRight">Revisación</th>
           <th class="_alignCenter" colspan="2">Acciones</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="orden in ordenes">
+        <tr v-for="(orden,index) in ordenes" v-bind:key="index">
           <td class="_alignRight">{{orden.id}}</td>
           <td class="_alignCenter">{{ orden.articulo }}</td>
           <td class="_alignRight">{{orden.cantidad}}&nbsp;&nbsp;</td>
           <td class="_alignCenter">{{orden.maquina}}</td>
           <td class="_alignCenter">{{orden.fecha_inicio | fecha}}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion_cerrada_fecha == null" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion > 0" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null  && orden.bizcocho > 0" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion_cerrada_fecha == null && getLevel > 5" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion > 0 && getLevel > 5" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null  && orden.bizcocho > 0 && getLevel > 5" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
+          <td class="_alignCenter">{{orden.revisacion}}</td>
 
           <td class="_alignCenter">
             <a @click="detalle(orden.id)">
@@ -165,10 +168,10 @@
                 <i class="fa fa-id-card naranja" aria-hidden="true"></i>
             </a>
             &nbsp;&nbsp;
-            <a @click="cerrar(orden.id)" v-if="orden.fecha_fin == null">
+            <a @click="cerrar(orden.id)" v-if="orden.fecha_fin == null && getLevel > 5">
                 <i title="Cerrar Orden" class="fa fa-briefcase hand p-text" aria-hidden="true"></i>
             </a>
-            <a @click="cerrar(orden.id)" v-if="orden.fecha_fin !== null">
+            <a @click="cerrar(orden.id)" v-if="orden.fecha_fin !== null && getLevel > 5">
                 <i class="fa fa-info-circle hand azul" aria-hidden="true"></i>
             </a>
             &nbsp;&nbsp;
@@ -211,6 +214,7 @@ export default {
         formacion: '',
         bizcocho: '',
         blanco: '',
+        revisacion: '',
         formacion_cerrada_fecha: ''
       },
       articulo: {
@@ -219,7 +223,8 @@ export default {
         descrip: '',
         stock_formacion: 0,
         stock_blanco: 0,
-        stock_bizcocho: 0
+        stock_bizcocho: 0,
+        stock_revisacion: 0
       },
       ordenes: [],
       hoy: '',
@@ -234,17 +239,21 @@ export default {
       showModal: false
     }
   },
+
   computed: {
     ...mapGetters([
       'getProcessing',
       'getUrl',
       'getHoy',
       'getDesde',
-      'getHasta'
+      'getHasta',
+      'getLevel'
     ]),
+
     reporte() {
       return 'http://produccion.dynalias.com/reportes/pdf/ofab_lista?q=' + this.desde + '|' + this.hasta + '|' + this.articuloSearch + '|' + this.maquinaSearch + '|' + this.estadoSearch
     },
+
     totalPiezas() {
       let cantidadPiezas = 0
       for (let articulo of this.ordenes) {
@@ -253,12 +262,15 @@ export default {
       return cantidadPiezas
     }
   },
+
   created() {
     //this.getHoy()
     this.desde = this.getDesde
     this.hasta = this.getHasta
+    this.setProcessing(true)
     this.getOrdenes()
   },
+
   methods: {
     getOrdenes() {
       this.setDesde(this.desde)
@@ -282,19 +294,23 @@ export default {
         .then(respuesta => {
           this.ordenes = respuesta.data
           //console.log(respuesta.data)
+          this.setProcessing(false)
         })
-      this.setProcessing(false)
+      
     },
+
     ...mapMutations([
       'setProcessing',
       'setDesde',
       'setHasta'
     ]),
+
     closeForm() {
       this.setProcessing(false)
       this.showModal = false
       this.resetForm()
     },
+
     resetForm() {
       this.ofab = {
         articulo: '',
@@ -303,21 +319,32 @@ export default {
       }
       this.getHoy
     },
+
     bizcocho(id) {
+      this.setProcessing(true)
       this.$router.push( {name: 'carga-bizcocho', params: { id: id } })
     },
+
     blanco(id) {
+      this.setProcessing(true)
       this.$router.push( {name: 'carga-blanco', params: { id: id } })
     },
+
     formacion(id) {
+      this.setProcessing(true)
       this.$router.push( {name: 'carga-formacion', params: { id: id } })
     },
+
     detalle(id) {
+      this.setProcessing(true)
       this.$router.push( {name: 'ofab-detalle', params: { id: id } })
     },
+
     cerrar(id) {
+      this.setProcessing(true)
       this.$router.push( {name: 'orden-fabricacion-cerrar', params: { id: id } })
     },
+
     stock(articulo) {
       this.$http.get(this.getUrl + 'stocks/' + articulo)
         .then(respuesta => {
@@ -327,6 +354,7 @@ export default {
 
         })
     },
+    
     closeModal() {
       this.showModal = false;
     }

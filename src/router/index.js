@@ -46,6 +46,11 @@ export default new Router({
       component: require('@/components/orden-fabricacion/OrdenFabricacion.vue')
     },
     {
+      path: '/carga-revisacion',
+      name: 'carga-revisacion',
+      component: require('@/components/orden-fabricacion/CargaRevisacion.vue')
+    },
+    {
       path: '/orden-fabricacion-add',
       name: 'orden-fabricacion-add',
       component: require('@/components/orden-fabricacion/OrdenFabricacionAdd.vue')

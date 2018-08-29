@@ -16,7 +16,7 @@
         <div class="row" v-if="errorLogin">
           <div class="alert _danger _shadow _box">
             <span class="-close" @click="closeError">×</span>
-            <strong>Oops..</strong> Credenciales Inválidas
+            <strong></strong> {{ errorText }}
             <br>
           </div>
         </div>
@@ -28,9 +28,13 @@
           <div class="col m12">
             <input class="input password" type="password" placeholder="Password" v-model="user.password" required>
           </div>
-          <div class="col m12">
+          <div class="col m12" v-if="!getProcessing">
             <input class=" _danger button" type="submit" value="Login" @click="login($event)" :disabled="disabled">
           </div>
+          <div class="col m12" v-if="getProcessing" >
+            <loading></loading>
+          </div>
+          
         </div>
         <!-- <br> -->
       </fieldset>
@@ -43,10 +47,9 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapMutations
-} from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import Loading from '@/components/Loading.vue'
+
 export default {
   name: 'login',
   data() {
@@ -54,26 +57,36 @@ export default {
       errorLogin: false,
       errorText: '',
       errorConnect: false,
+      processing: false,
       user: {
         username: '',
         password: ''
       }
     }
   },
+
+  components: {
+    loading: Loading
+  },
+
   beforeCreate() {
     this.$store.state.logged = false;
   },
+
   created() {
     this.$store.state.logged = false;
     this.setLogged(null)
   },
+
   computed: {
     ...mapGetters([
       'getLogged',
       'getUserStatus',
       'getProcessing',
-      'getUrl'
+      'getUrl',
+      'getLevel'
     ]),
+
     disabled() {
       if (this.user.username.length < 6 || this.user.password.length < 6) {
         return true;
@@ -82,42 +95,56 @@ export default {
       }
     }
   },
+
   methods: {
     ...mapMutations([
       'setLogged',
       'setProcessing'
     ]),
+
     closeError() {
       this.errorLogin = false
     },
+
     login(e) {
+
+      //this.setProcessing(true)
+      this.processing = true
+      this.errorConnect = false
+      this.setProcessing(true)
+
       e.preventDefault();
       // fetch usuario
       //console.log(this.user)
-      this.errorConnect = false
-      this.setProcessing(true)
+      
+      
       this.$http.post(this.getUrl + 'login', this.user)
         .then(respuesta => {
           //console.log(respuesta.data)
           if (respuesta.data.status == 'ok') {
+
             this.setLogged(respuesta.data)
             this.$router.push('/');
+
           } else {
+
             this.errorText = 'Credenciales Inválidas.'
             this.errorLogin = true;
             this.setLogged(null)
-            this.setProcessing(false)
+            //this.setProcessing(false)
             this.errorLogin = true;
+
           }
         })
         .catch(err => {
           console.log('Error con la conexión a Base de Datos')
           console.log('Compruebe su conexión a INTERNET')
-          this.errorText = 'Error en Base de Datos'
+          this.errorText = 'Compruebe su conexión a INTERNET'
           this.errorLogin = true
           this.errorConnect = true
 
         })
+      //this.setProcessing(false)
       this.setProcessing(false)
     }
   }

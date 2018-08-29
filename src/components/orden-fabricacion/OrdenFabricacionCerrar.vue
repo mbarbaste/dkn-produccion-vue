@@ -1,7 +1,5 @@
 <template lang="html">
   <div>
-    <!-- <h5>Cerrar Orden de Fabricación {{ id }} </h5>
-    <br> -->
 
     <!-- The Modal -->
     <div id="cerrar" class="modalbox-modal" :class="{ dBlock: showModal }">
@@ -9,6 +7,7 @@
       <div class="modalbox-modal-content">
         <span class="-close" id="modalbox-close1" @click="cerrarModal">✖</span>
         <p>Confirma cerrar Orden de Fabricación <strong>{{ id }}</strong> ?</p>
+
         <fieldset>
           <legend>Observaciones</legend>
           <br>
@@ -26,6 +25,7 @@
       <div class="modalbox-modal-content">
         <span class="-close" id="modalbox-close1" @click="cerrarModal">✖</span>
         <p>Confirma cerrar <strong>Formación</strong> de la Orden de Fabricación <strong>{{ id }}</strong> ?</p>
+
         <fieldset>
           <legend>Observaciones</legend>
           <br>
@@ -37,7 +37,6 @@
 
       </div>
     </div>
-
 
     <div v-if="!cerrada" class="jumbo b-light">
       <h4>Cerrar Orden de Fabricación <strong>{{ id }}</strong></h4>
@@ -51,7 +50,6 @@
       <h4>Orden {{ id }} cerrada.</h4>
       <h5> {{ ofab.articulo }} </h5>
       <p>{{ ofab.fecha_fin | fecha}}</p>
-
     </div>
 
   </div>
@@ -83,6 +81,7 @@ export default {
       formacionCerrada: false
     }
   },
+
   computed: {
     ...mapGetters([
       'getProcessing',
@@ -90,11 +89,13 @@ export default {
       'getHoy'
     ])
   },
+
   watch: {
     '$route' (to, from) {
       this.id = to.params.id
     }
   },
+
   methods: {
     ...mapMutations([
       'setProcessing'
@@ -176,6 +177,7 @@ export default {
         })
     }
   },
+  
   mounted() {
     this.getOrdenFabricacion(this.id)
   }

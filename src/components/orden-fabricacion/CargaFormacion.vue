@@ -58,12 +58,14 @@ export default {
       }
     }
   },
+
   computed: {
     ...mapGetters([
       'getProcessing',
       'getUrl',
       'getHoy'
     ]),
+
     disabled() {
       if ( this.formacion.cantidad < 1 ) {
         return true;
@@ -72,16 +74,19 @@ export default {
       }
     }
   },
+
   watch: {
     '$route'(to, from) {
       this.id = to.params.id
       this.formacion.ofab_id = to.params.id
     }
   },
+
   methods: {
     ...mapMutations([
       'setProcessing'
     ]),
+
     resetForm() {
       this.formacion = {
         //ofab_id: this.$route.params.id,
@@ -90,12 +95,13 @@ export default {
         rotura: 0
       }
     },
+
     save() {
       if(this.disabled) { return }
 
-    this.setProcessing(true)
+      this.setProcessing(true)
 
-    this.$http.post(this.getUrl + 'carga_formacion', this.formacion)
+      this.$http.post(this.getUrl + 'carga_formacion', this.formacion)
         .then( respuesta => {
           console.log(respuesta.data)
           this.resetForm()
@@ -107,6 +113,7 @@ export default {
 
       this.setProcessing(false)
     },
+
     getOrdenFabricacion(id) {
       this.setProcessing(true)
       this.$http.get(this.getUrl + 'ofab/' + id)
@@ -122,11 +129,13 @@ export default {
         this.setProcessing(false)
     }
   },
+
   created() {
     this.formacion.fecha = this.getHoy
     this.getOrdenFabricacion(this.id)
 
   },
+  
   updated() {
     // this.formacion.fecha = this.getHoy
     // this.getOrdenFabricacion(this.id)

@@ -2,17 +2,29 @@
 <div  class="contenedor _alignCenter w-1000">
 <h5>Nueva Orden de Fabricación</h5>
 <br>
+
+<div class="row" v-if="errorArticulo">
+    <div class="alert _danger _shadow _box">
+      <span class="-close" @click="closeErrorArticulo">×</span>
+      <strong>El artículo ingresado No existe.<br><br>Solicite a sistemas el alta del artículo.</strong>
+      <br>
+    </div>
+</div>
+
 <fieldset>
     <!-- <legend>Contact information:</legend> -->
   <div class="row">
+
     <div class="col m2">
       <label for="articulo">Artículo</label>
       <input class="_full-width"  v-model="ofab.articulo" type="text" placeholder="Código Artículo" min-lenght=6 required>
     </div>
+
     <div class="col m2">
       <label for="cantidad">Cantidad</label>
       <input class="_full-width"  v-model="ofab.cantidad" type="number" placeholder="Cantidad" required>
     </div>
+
     <div class="col m3">
       <label for="maquina">Máquina</label>
       <select class="_width100" id="maquina"  v-model="ofab.maquina">
@@ -33,23 +45,28 @@
         <option value="Prensa">Prensa</option>
       </select>
     </div>
+
     <div class="col m2">
       <label for="molde">Molde</label>
       <input class="_full-width"  v-model="ofab.molde" type="text" placeholder="Molde">
     </div>
+
     <div class="col m3">
       <label for="molde">Fecha</label>
       <input class="_full-width" v-model="ofab.fecha_inicio" type="date" required>
     </div>
+
   </div>
+
   <div class="row">
   <label for="observaciones">Observaciones</label>
-  <div class="col m12">
-  <textarea class="_width100" v-model="ofab.observaciones" placeholder="Ingrese aquí tus observaciones.." id="observaciones"></textarea>
-  </div>
-  <input class=" _danger button"  @click="save($event)" type="submit" value="Agregar">
+    <div class="col m12">
+    <textarea class="_width100" v-model="ofab.observaciones" placeholder="Ingrese aquí tus observaciones.." id="observaciones"></textarea>
+    </div>
+    <input class=" _danger button"  @click="save($event)" type="submit" value="Agregar">
 </div>
 </fieldset>
+
 </div>
 </template>
 
@@ -67,7 +84,8 @@ export default {
         fecha_inicio: '',
         molde: '',
         observaciones: ''
-      }
+      },
+      errorArticulo: false
     }
   },
   computed: {
@@ -85,6 +103,9 @@ export default {
     }
   },
   methods: {
+    closeErrorArticulo() {
+      this.errorArticulo = false;
+    },
     save(e) {
       e.preventDefault()
       if (this.disabled) return
@@ -96,9 +117,15 @@ export default {
 
             this.$router.push('/orden-fabricacion')
 
-          } else {
-            console.log('Error')
-          }
+          } 
+
+          if (respuesta.data.status == 'notFound') {
+
+            this.errorArticulo = true;
+
+          } 
+
+
         })
     },
     ...mapMutations([

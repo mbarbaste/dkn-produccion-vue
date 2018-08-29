@@ -6,6 +6,7 @@
         <span class="-close" id="modalbox-close1" @click="closeModal">✖</span>
 
         <div class="row">
+
             <div class="col m3 _alignLeft">
               <label for="articulo">Artículo</label>
               <input class="_full-width" id="articulo" type="text" v-model="articulo.articulo" placeholder="Artículo" disabled>
@@ -20,23 +21,27 @@
               <label for="bizcocho">St.Bizcocho</label>
               <input class="_full-width" id="bizcocho" type="text" v-model="articulo.stock_bizcocho">
             </div>
+
             <div class="col m2 _alignLeft">
               <label for="blanco">St.Blanco</label>
               <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_blanco">
             </div>
+
             <div class="col m2 _alignLeft">
               <label for="acciones">&nbsp;</label>
               <button class="_danger" @click="saveStock">Guardar</button>
             </div>
+
         </div>
 
       </div>
     </div>
 
-
     <h5>Stocks</h5>
     <br>
+
     <fieldset>
+
       <div class="row">
 
         <div class="col m4">
@@ -53,9 +58,12 @@
 
         </div>
 
-        <div class="col m2"  v-if="articulos.length != 0">
+        <div class="col m2">
+          <!-- <div class="col m2"  v-if="articulos.length != 0"> -->
           <!-- <a :href="reporte" target="_blank"> -->
+          <a :href="reporteStock" target="_blank">
               <i title="Imprimir" class="fa fa-print faprint" aria-hidden="true"></i>
+          </a>
           <!-- </a> -->
         </div>
 
@@ -64,11 +72,13 @@
 
   <div v-if="showAlert">
     <br><br>
+
     <div class="alert _warning _shadow _box">
       <span class="-close" @click="closeAlert">×</span>
       <strong>Oops!! </strong> No se ha encontrado <strong>{{ articuloSearch}}</strong>.
     </div>
-    </div>
+
+  </div>
 
     <div v-if="articulos.length == 0 && showAlert == false">
       <br><br>
@@ -80,6 +90,7 @@
       <fieldset>
 
         <table class="_width100">
+
           <thead>
             <tr>
               <th class="_alignCenter">Artículo</th>
@@ -87,9 +98,10 @@
               <th class="_alignRigth">Formación</th>
               <th class="_alignRigth">Bizcocho</th>
               <th class="_alignRigth">Blanco</th>
-              <th class="_alignCenter">Acciones</th>
+              <th class="_alignCenter" v-if="getLevel > 5">Acciones</th>
             </tr>
           </thead>
+
           <tbody>
             <tr v-for="(articulo,index) in articulos">
               <td class="_alignCenter">{{ articulo.articulo }}</td>
@@ -97,17 +109,14 @@
               <td class="_alignRigth">{{ articulo.stock_formacion }}</td>
               <td class="_alignRigth">{{ articulo.stock_bizcocho }}</td>
               <td class="_alignRigth">{{ articulo.stock_blanco }}</td>
-              <td class="_alignCenter"><button class="_xsmall _danger" @click="editaStock(index)">Editar</button></td>
+              <td class="_alignCenter" v-if="getLevel > 5"><button class="_xsmall _danger" @click="editaStock(index)">Editar</button></td>
             </tr>
-
           </tbody>
         </table>
 
       </fieldset>
 
     </div>
-
-
 
   </div>
 </template>
@@ -132,12 +141,19 @@ export default {
       index: 0
     }
   },
+
   computed: {
     ...mapGetters([
       'getProcessing',
-      'getUrl'
-    ])
+      'getUrl',
+      'getLevel'
+    ]),
+
+    reporteStock() {
+      return 'http://produccion.dynalias.com/reportes/pdf/stocks'
+    },
   },
+
   methods: {
     getStock() {
       if(this.articuloSearch.length == 0) {
@@ -154,6 +170,7 @@ export default {
           //console.log(respuesta.data)
         })
     },
+
     editaStock(index) {
       console.log('editar stock index:', index)
       this.articulo.id = this.articulos[index].id
@@ -167,6 +184,7 @@ export default {
       this.showModal = true
       console.log(this.articulo)
     },
+
     searchArticulo(e) {
       if(this.articuloSearch.length == 0) {
         this.articulos = []
@@ -177,12 +195,15 @@ export default {
       this.articuloSearch = search.value
       this.getStock()
     },
+
     closeAlert() {
       this.showAlert = false
     },
+
     closeModal() {
       this.showModal = false;
     },
+
     saveStock() {
       console.log(this.articulo)
 
@@ -198,9 +219,6 @@ export default {
             console.log('Error')
           }
         })
-
-
-
     }
   }
 }
