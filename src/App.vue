@@ -114,6 +114,7 @@ export default {
 
 input[type="date"] {
      -webkit-align-items: center;
+     align-items: center;
      display: -webkit-inline-flex;
      /*font-family: monospace;*/
      line-height: 27px;
@@ -125,6 +126,7 @@ input[type="date"] {
 
 input::-webkit-datetime-edit {
     -webkit-flex: 1;
+    flex:1;
     -webkit-user-modify: read-only !important;
     display: inline-block;
     min-width: 0;

@@ -510,7 +510,7 @@ export default {
     sendTab(prev, next, e) {
       e.preventDefault();
       
-      console.log("Tecla: ", e.which);
+      // console.log("Tecla: ", e.which);
       if(e.which < 48 || e.which > 57) {
         //console.log("no es número", e)
         //console.log("target: ", e.target.id);
@@ -518,9 +518,6 @@ export default {
         //console.log("Exis: ",x);
         let campo = document.getElementById(x);
         campo.focus();
-
-        
-
 
         if(campo.value == "0") {
           //document.getElementById(x).select();

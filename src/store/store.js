@@ -14,7 +14,7 @@ export default new Vuex.Store({
     showModal: '',
     processing: false,
     hoy: new Date().toISOString().substring(0, 10),
-    url: 'http://apitest.dynalias.com/api/',
+    url: 'http://apidata.dynalias.com/api/',
     desde: new Date().toISOString().substring(0, 10),
     hasta: new Date().toISOString().substring(0, 10)
     //url: 'http://slimapp.com/api/'

@@ -1,33 +1,53 @@
 <template lang="html">
-  <div class="contenedor _alignCenter w-700">
+  <div class="contenedor _alignCenter w-950">
 
     <div class="modalbox-modal" align="center" :class="{ dBlock: showModal }">
-      <div class="modalbox-modal-content w-700">
+      <div class="modalbox-modal-content w-950">
         <span class="-close" id="modalbox-close1" @click="closeModal">✖</span>
 
         <div class="row">
 
-            <div class="col m3 _alignLeft">
+            <div class="col m2 _alignLeft">
               <label for="articulo">Artículo</label>
               <input class="_full-width" id="articulo" type="text" v-model="articulo.articulo" placeholder="Artículo" disabled>
             </div>
 
-            <div class="col m2 _alignLeft">
-              <label for="formacion">St.Formación</label>
+            <div class="col m1 _alignLeft">
+              <label for="formacion">Form.</label>
               <input class="_full-width" id="formacion" type="text" v-model="articulo.stock_formacion">
             </div>
 
-            <div class="col m2 _alignLeft">
-              <label for="bizcocho">St.Bizcocho</label>
+            <div class="col m1 _alignLeft">
+              <label for="bizcocho">Biz.</label>
               <input class="_full-width" id="bizcocho" type="text" v-model="articulo.stock_bizcocho">
             </div>
 
-            <div class="col m2 _alignLeft">
-              <label for="blanco">St.Blanco</label>
-              <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_blanco">
+            <div class="col m1 _alignLeft">
+              <label for="blanco">H.Alta</label>
+              <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_horno_alta">
             </div>
 
+             <div class="col m1 _alignLeft">
+              <label for="blanco">1era</label>
+              <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_revisacion_1">
+            </div>
+
+            <div class="col m1 _alignLeft">
+              <label for="blanco">2da</label>
+              <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_revisacion_2">
+            </div>
+
+            <div class="col m1 _alignLeft">
+              <label for="blanco">5ta</label>
+              <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_revisacion_5">
+            </div>      
+
             <div class="col m2 _alignLeft">
+              &nbsp;
+            </div>     
+
+
+            <div class="col m1 _alignLeft">
               <label for="acciones">&nbsp;</label>
               <button class="_danger" @click="saveStock">Guardar</button>
             </div>
@@ -97,7 +117,10 @@
               <th class="_alignCenter">Descripción</th>
               <th class="_alignRigth">Formación</th>
               <th class="_alignRigth">Bizcocho</th>
-              <th class="_alignRigth">Blanco</th>
+              <th class="_alignRigth">H. Alta</th>
+              <th class="_alignRigth">1era</th>
+              <th class="_alignRigth">2da</th>
+              <th class="_alignRigth">5ta</th>
               <th class="_alignCenter" v-if="getLevel > 5">Acciones</th>
             </tr>
           </thead>
@@ -108,7 +131,10 @@
               <td class="_alignCenter">{{ articulo.descrip }}</td>
               <td class="_alignRigth">{{ articulo.stock_formacion }}</td>
               <td class="_alignRigth">{{ articulo.stock_bizcocho }}</td>
-              <td class="_alignRigth">{{ articulo.stock_blanco }}</td>
+              <td class="_alignRigth">{{ articulo.stock_horno_alta }}</td>
+              <td class="_alignRigth">{{ articulo.stock_revisacion_1 }}</td>
+              <td class="_alignRigth">{{ articulo.stock_revisacion_2 }}</td>
+              <td class="_alignRigth">{{ articulo.stock_revisacion_5 }}</td>
               <td class="_alignCenter" v-if="getLevel > 5"><button class="_xsmall _danger" @click="editaStock(index)">Editar</button></td>
             </tr>
           </tbody>
@@ -136,7 +162,10 @@ export default {
         articulo: '',
         stock_formacion: 0,
         stock_bizcocho: 0,
-        stock_blanco: 0
+        stock_horno_alta: 0,
+        stock_revisacion_1: 0,
+        stock_revisacion_2: 0,
+        stock_revisacion_5: 0
       },
       index: 0
     }
@@ -175,9 +204,12 @@ export default {
       console.log('editar stock index:', index)
       this.articulo.id = this.articulos[index].id
       this.articulo.articulo = this.articulos[index].articulo
-      this.articulo.stock_formacion = this.articulos[index].stock_formacion
-      this.articulo.stock_bizcocho = this.articulos[index].stock_bizcocho
-      this.articulo.stock_blanco = this.articulos[index].stock_blanco
+      this.articulo.stock_formacion = parseInt(this.articulos[index].stock_formacion) 
+      this.articulo.stock_bizcocho = parseInt(this.articulos[index].stock_bizcocho) 
+      this.articulo.stock_horno_alta = parseInt(this.articulos[index].stock_horno_alta) 
+      this.articulo.stock_revisacion_1 = parseInt(this.articulos[index].stock_revisacion_1)
+      this.articulo.stock_revisacion_2 = parseInt(this.articulos[index].stock_revisacion_2) 
+      this.articulo.stock_revisacion_5 = parseInt(this.articulos[index].stock_revisacion_5)
 
       this.index = index
 
@@ -205,31 +237,43 @@ export default {
     },
 
     saveStock() {
-      console.log(this.articulo)
+      //console.log(this.articulo)
 
       this.$http.post(this.getUrl + 'stocks', this.articulo)
         .then(respuesta => {
           if (respuesta.data.status == 'ok') {
+
             this.showModal = false
-            this.articulos[this.index].stock_formacion = this.articulo.stock_formacion
-            this.articulos[this.index].stock_bizcocho = this.articulo.stock_bizcocho
-            this.articulos[this.index].stock_blanco = this.articulo.stock_blanco
+            this.getStock()
 
           } else {
-            console.log('Error')
+
+            console.log('Error', respuesta)
+
           }
         })
+        .catch(err => console.log(err))
     }
   }
 }
 </script>
 
 <style lang="css">
+
+.w-950 {
+  max-width: 950px;
+}
+
 .w-700 {
   max-width: 700px;
 }
 
 .w-400 {
   max-width: 400px;
+}
+
+.fasearch {
+  font-size: 30px;
+  color: #378D3B;
 }
 </style>

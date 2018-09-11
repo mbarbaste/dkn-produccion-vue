@@ -9,27 +9,27 @@
 
         <div class="col m2">
           <label for="modelo">Artículo</label>
-          <input class="_full-width" type="text" v-model="blanco.articulo" minlenght="6" maxlength="6" disabled>
+          <input class="_full-width" type="text" v-model="hornoAlta.articulo" minlenght="6" maxlength="6" disabled>
         </div>
 
         <div class="col m2">
           <label for="modelo">Horno</label>
-          <input class="_full-width" type="text" v-model="blanco.horno" required>
+          <input class="_full-width" type="text" v-model="hornoAlta.horno" required>
         </div>
 
         <div class="col m2">
           <label for="modelo">Cantidad</label>
-          <input class="_full-width" type="number" v-model="blanco.cantidad" required>
+          <input class="_full-width" type="number" v-model="hornoAlta.cantidad" required>
         </div>
 
         <div class="col m2">
           <label for="modelo">Rotura</label>
-          <input class="_full-width" type="number" v-model="blanco.rotura">
+          <input class="_full-width" type="number" v-model="hornoAlta.rotura">
         </div>
 
         <div class="col m2">
           <label for="hasta">Fecha</label>
-          <input class="_full-width" type="date" v-model="blanco.fecha" required>
+          <input class="_full-width" type="date" v-model="hornoAlta.fecha" required>
         </div>
 
         <div class="col m2">
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      blanco: {
+      hornoAlta: {
         ofab_id: this.$route.params.id,
         articulo: '',
         cantidad: 0,
@@ -72,7 +72,7 @@ export default {
     ]),
 
     disabled() {
-      if ( this.blanco.cantidad < 1 || this.blanco.horno.length < 2) {
+      if ( this.hornoAlta.cantidad < 1 || this.hornoAlta.horno.length < 2) {
         return true;
       } else {
         return false;
@@ -83,7 +83,7 @@ export default {
   watch: {
     '$route'(to, from) {
       this.id = to.params.id
-      this.blanco.ofab_id = to.params.id
+      this.hornoAlta.ofab_id = to.params.id
     }
   },
 
@@ -92,7 +92,7 @@ export default {
       'setProcessing'
     ]),
     resetForm() {
-      this.blanco = {
+      this.hornoAlta = {
         //ofab_id: this.$route.params.id,
         articulo: '',
         cantidad: 0,
@@ -106,7 +106,7 @@ export default {
 
     this.setProcessing(true)
 
-    this.$http.post(this.getUrl + 'carga_blanco', this.blanco)
+    this.$http.post(this.getUrl + 'carga_horno_alta', this.blanco)
         .then( respuesta => {
           console.log(respuesta.data)
           this.resetForm()
@@ -136,7 +136,7 @@ export default {
   },
   
   created() {
-    this.blanco.fecha = this.getHoy
+    this.hornoAlta.fecha = this.getHoy
     this.getOrdenFabricacion(this.id)
 
   },

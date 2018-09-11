@@ -58,7 +58,7 @@
         <td class="_alignCenter">{{ofab.fecha_inicio | fecha}}</td>
         <td class="_alignCenter">{{ofab.formacion}}</td>
         <td class="_alignCenter">{{ofab.bizcocho}}</td>
-        <td class="_alignCenter">{{ofab.blanco}}</td>
+        <td class="_alignCenter">{{ofab.horno_alta}}</td>
         <td class="_alignCenter">{{ofab.revisacion}}</td>
       </tr>
     </tbody>
@@ -130,8 +130,8 @@
     <!-- <h6>Detalle Carga Horno Alta</h6> -->
     <legend  class="text-alta _alignLeft">Detalle Carga Horno Alta</legend>
     <br>
-    <p  v-if="blancoList.length == 0"><strong>No</strong> hay nada registrado.</p>
-    <table  class="_width100" v-if="blancoList.length > 0">
+    <p  v-if="hornoAltaList.length == 0"><strong>No</strong> hay nada registrado.</p>
+    <table  class="_width100" v-if="hornoAltaList.length > 0">
       <thead>
         <tr>
           <th class="_alignCenter">Fecha</th>
@@ -142,7 +142,7 @@
         </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in blancoList" :key="index">
+          <tr v-for="(item, index) in hornoAltaList" :key="index">
             <td class="_alignCenter">{{ item.fecha | fecha }}</td>
             <td class="_alignCenter">{{ item.horno }}</td>
             <td class="_alignCenter">{{ item.cantidad }}</td>
@@ -183,9 +183,12 @@
             <td class="_alignCenter">{{ item.quinta }}</td>
             <td class="_alignCenter">{{ item.dte }}</td>
             <td class="_alignRight">
-              <a v-if="getLevel > 5" @click="revertirHornoAlta(item.id, index)" title="Revertir" class="mano">
+
+              <!-- <a v-if="getLevel > 5" @click="revertirRevisacion(item.id, index)" title="Revertir" class="mano">
                 <i class="fa fa-exchange" aria-hidden="true"></i>
-            </a></td>
+              </a> -->
+
+            </td>
           </tr>
         </tbody>
     </table>
@@ -234,7 +237,7 @@ export default {
       },
 
       bizcochoList: [],
-      blancoList: [],
+      hornoAltaList: [],
       formacionList: [],
       revisacionList: [],
       modalTitle: '',
@@ -296,9 +299,9 @@ export default {
 
     revertirHornoAlta(id, i) {
         // console.log("Revertir Parte Horno de Alta: ", id);
-        this.revData.fecha = this.blancoList[i].fecha;
-        this.revData.cantidad = this.blancoList[i].cantidad;
-        this.revData.rotura = this.blancoList[i].rotura;
+        this.revData.fecha = this.hornoAltaList[i].fecha;
+        this.revData.cantidad = this.hornoAltaList[i].cantidad;
+        this.revData.rotura = this.hornoAltaList[i].rotura;
         this.revData.parteId = id;
         this.revData.proceso = 'hornoAlta';
         this.revData.articulo = this.ofab.articulo;
@@ -346,14 +349,14 @@ export default {
 
     revHornoAlta(data) {
       // Llamada a la API
-      this.$http.post(this.getUrl + 'revertir_blanco', this.revData)
+      this.$http.post(this.getUrl + 'revertir_horno_alta', this.revData)
         .then(respuesta => {
           if (respuesta.data.status == 'ok') {
               console.log('Datos desde API', respuesta.data.data);
             //this.$router.push('/ofab-detalle/0')
             // this.$router.push( {name: 'ofab-detalle', params: { id: data.ordenId } } );
             this.getOrdenFabricacion(this.id);
-            this.getCargaBlanco(this.id)
+            this.getCargaHornoAlta(this.id)
 
           } else {
             console.log('Error')
@@ -392,17 +395,17 @@ export default {
         })
     },
 
-    getCargaBlanco(oid) {
-      this.$http.get(this.getUrl + 'carga_blanco/' + oid)
+    getCargaHornoAlta(oid) {
+      this.$http.get(this.getUrl + 'carga_horno_alta/' + oid)
         .then(respuesta => {
           if (respuesta.data.length > 0) {
 
             //console.log(respuesta.data)
-            this.blancoList = respuesta.data
+            this.hornoAltaList = respuesta.data
 
           } else {
             //console.log('No se encontró blanco')
-            this.blancoList = []
+            this.hornoAltaList = []
           }
         })
     },
@@ -443,7 +446,7 @@ export default {
     this.getOrdenFabricacion(this.id)
     this.getCargaFormacion(this.id)
     this.getCargaBizcocho(this.id)
-    this.getCargaBlanco(this.id)
+    this.getCargaHornoAlta(this.id)
     this.getCargaRevisacion(this.id)
     this.setProcessing(false)
   },

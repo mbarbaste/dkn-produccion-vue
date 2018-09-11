@@ -23,19 +23,28 @@
 
         <div class="row">
           <div class="col m12">
-            <input class="input entrada" type="text" placeholder="Usuario" v-model="user.username" required>
+            <input class="entrada" type="text" placeholder="Usuario" v-model="user.username" required autocomplete="off">
           </div>
+        </div>
+
+        <div class="row">
           <div class="col m12">
-            <input class="input password" type="password" placeholder="Password" v-model="user.password" required>
+            <input class="password" type="password" placeholder="Password" v-model="user.password" required autocomplete="off">
           </div>
+        </div>
+
+        <div class="row">
           <div class="col m12" v-if="!getProcessing">
             <input class=" _danger button" type="submit" value="Login" @click="login($event)" :disabled="disabled">
           </div>
+        </div>
+
+        <div class="row">  
           <div class="col m12" v-if="getProcessing" >
             <loading></loading>
           </div>
-          
         </div>
+
         <!-- <br> -->
       </fieldset>
     </form>
@@ -169,7 +178,8 @@ fieldset {
 }
 
 .entrada {
-  margin: 20px;
+  
+  width: 100%;
 }
 
 .w-400 {
@@ -182,5 +192,6 @@ fieldset {
   height: 34px;
   margin-bottom: 30px;
   padding: 5px;
+  width: 100%;
 }
 </style>

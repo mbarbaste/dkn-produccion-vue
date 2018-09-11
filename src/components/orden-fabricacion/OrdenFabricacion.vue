@@ -156,7 +156,7 @@
           <td class="_alignCenter">{{orden.fecha_inicio | fecha}}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion_cerrada_fecha == null && getLevel > 5" class="fa fa-pencil-square faformacion" aria-hidden="true" @click="formacion(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.formacion }}</td>
           <td class="_alignRight"><i v-if="orden.fecha_fin == null && orden.formacion > 0 && getLevel > 5" class="fa fa-pencil-square brown" aria-hidden="true" @click="bizcocho(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.bizcocho }}</td>
-          <td class="_alignRight"><i v-if="orden.fecha_fin == null  && orden.bizcocho > 0 && getLevel > 5" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.blanco }} </td>
+          <td class="_alignRight"><i v-if="orden.fecha_fin == null  && orden.bizcocho > 0 && getLevel > 5" class="fa fa-pencil-square negro" aria-hidden="true" @click="blanco(orden.id)"></i>&nbsp;&nbsp;&nbsp;{{ orden.horno_alta }} </td>
           <td class="_alignCenter">{{orden.revisacion}}</td>
 
           <td class="_alignCenter">
@@ -327,7 +327,7 @@ export default {
 
     blanco(id) {
       this.setProcessing(true)
-      this.$router.push( {name: 'carga-blanco', params: { id: id } })
+      this.$router.push( {name: 'carga-horno-alta', params: { id: id } })
     },
 
     formacion(id) {

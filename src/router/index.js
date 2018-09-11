@@ -28,7 +28,7 @@ export default new Router({
     {
       path: '/carga-blanco/:id',
       name: 'carga-blanco',
-      component: require('@/components/orden-fabricacion/CargaBlanco.vue')
+      component: require('@/components/orden-fabricacion/CargaHornoAlta.vue')
     },
     {
       path: '/carga-formacion/:id',
