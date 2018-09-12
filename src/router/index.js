@@ -26,8 +26,8 @@ export default new Router({
       component: require('@/components/orden-fabricacion/CargaBizcocho.vue')
     },
     {
-      path: '/carga-blanco/:id',
-      name: 'carga-blanco',
+      path: '/carga-horno-alta/:id',
+      name: 'carga-horno-alta',
       component: require('@/components/orden-fabricacion/CargaHornoAlta.vue')
     },
     {

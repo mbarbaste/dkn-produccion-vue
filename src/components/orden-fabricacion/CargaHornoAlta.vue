@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="contenedor _alignCenter">
 
-    <h5>Carga de Horno de Alta (Parte Nro) {{ id }}</h5>
+    <h5>Carga de Horno de Alta ( Parte {{ id }} )</h5>
     <br>
 
     <fieldset>
@@ -9,7 +9,8 @@
 
         <div class="col m2">
           <label for="modelo">Artículo</label>
-          <input class="_full-width" type="text" v-model="hornoAlta.articulo" minlenght="6" maxlength="6" disabled>
+          <!-- <input class="_full-width" type="text" v-model="hornoAlta.articulo" minlenght="6" maxlength="6" disabled> -->
+          <h5>{{ hornoAlta.articulo }}</h5>
         </div>
 
         <div class="col m2">
@@ -27,14 +28,14 @@
           <input class="_full-width" type="number" v-model="hornoAlta.rotura">
         </div>
 
-        <div class="col m2">
+        <div class="col m3">
           <label for="hasta">Fecha</label>
           <input class="_full-width" type="date" v-model="hornoAlta.fecha" required>
         </div>
 
-        <div class="col m2">
+        <div class="col m1">
           <label for="buscar">&nbsp;</label>
-          <button class="_danger" @click="save" v-show="!disabled">Guardar</button>
+          <button class="_danger" @click="save" v-show="!disabled"><i class="fa fa-save fa-20"></i></button>
         </div>
 
       </div>
@@ -91,6 +92,7 @@ export default {
     ...mapMutations([
       'setProcessing'
     ]),
+
     resetForm() {
       this.hornoAlta = {
         //ofab_id: this.$route.params.id,
@@ -106,7 +108,7 @@ export default {
 
     this.setProcessing(true)
 
-    this.$http.post(this.getUrl + 'carga_horno_alta', this.blanco)
+    this.$http.post(this.getUrl + 'carga_horno_alta', this.hornoAlta)
         .then( respuesta => {
           console.log(respuesta.data)
           this.resetForm()
@@ -125,7 +127,7 @@ export default {
         .then(respuesta => {
           if (respuesta.data.length > 0) {
             //this.ordenes.unshift(this.ofab)
-            this.blanco.articulo = respuesta.data[0].articulo
+            this.hornoAlta.articulo = respuesta.data[0].articulo
             //this.closeForm()
           } else {
             console.log('No hay artículo o se ejecuto history.back')
@@ -148,4 +150,7 @@ export default {
 </script>
 
 <style lang="css">
+
+
+
 </style>

@@ -1,8 +1,6 @@
 <template>
 <div class="back-teal">
 
-
-
   <div class="contenedor _alignCenter w-400">
     <form>
       <fieldset>
@@ -14,18 +12,21 @@
         </div>
 
         <div class="row" v-if="errorLogin">
-          <div class="alert _danger _shadow _box">
+          <div class="alert _danger _shadow _box" style="padding:10px;">
             <span class="-close" @click="closeError">×</span>
             <strong></strong> {{ errorText }}
             <br>
           </div>
+          <br>
         </div>
 
         <div class="row">
           <div class="col m12">
-            <input class="entrada" type="text" placeholder="Usuario" v-model="user.username" required autocomplete="off">
+            <input class="entrada" type="text" placeholder="Usuario" v-model="user.username" required autocomplete="off" @focus="closeError()">
           </div>
         </div>
+
+        <div class="row">&nbsp;</div>
 
         <div class="row">
           <div class="col m12">
@@ -33,9 +34,9 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col m12" v-if="!getProcessing">
-            <input class=" _danger button" type="submit" value="Login" @click="login($event)" :disabled="disabled">
+        <div class="row" v-if="!getProcessing && !disabled">
+          <div class="col m12">
+            <input class=" _danger button" type="submit" value="Login" @click="login($event)">
           </div>
         </div>
 
