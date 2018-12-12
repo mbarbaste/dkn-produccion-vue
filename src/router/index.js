@@ -104,6 +104,31 @@ export default new Router({
       path: '/informes',
       name: 'informes',
       component: require('@/components/informes/Informes')
+    },
+    {
+      path: '/informes/revisacion',
+      name: 'irevisacion',
+      component: require('@/components/informes/InformeRevisacion')
+    },
+    {
+      path: '/informes/formacion',
+      name: 'iformacion',
+      component: require('@/components/informes/InformeFormacion')
+    },
+    {
+      path: '/informes/bizcocho',
+      name: 'ibizcocho',
+      component: require('@/components/informes/InformeBizcocho')
+    },
+    {
+      path: '/informes/horno_alta',
+      name: 'ihornoalta',
+      component: require('@/components/informes/InformeHornoAlta')
+    },
+    {
+      path: '/informes/revisacion/resumen',
+      name: 'irevres',
+      component: require('@/components/informes/InformeRevisacionExcel')
     }
   ]
 })

@@ -15,7 +15,16 @@
 
         <div class="col m2">
           <label for="modelo">Horno</label>
-          <input class="_full-width" type="text" v-model="hornoAlta.horno" required>
+          <!-- <input class="_full-width" type="text" v-model="hornoAlta.horno" required> -->
+          <select class="_width100" id="horno" v-model="hornoAlta.horno">
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25 Z1">25 Z1</option>
+            <option value="25 Z2">25 Z2</option>
+          </select>
         </div>
 
         <div class="col m2">
@@ -30,7 +39,7 @@
 
         <div class="col m3">
           <label for="hasta">Fecha</label>
-          <input class="_full-width" type="date" v-model="hornoAlta.fecha" required>
+          <input class="_full-width" type="date" @change="updateFecha" v-model="hornoAlta.fecha" required>
         </div>
 
         <div class="col m1">
@@ -60,7 +69,8 @@ export default {
         cantidad: 0,
         rotura: 0,
         horno: '',
-        fecha: this.getHoy
+        fecha: this.getFechaHornoAlta,
+        grupo: ''
       }
     }
   },
@@ -69,7 +79,8 @@ export default {
     ...mapGetters([
       'getProcessing',
       'getUrl',
-      'getHoy'
+      'getHoy',
+      'getFechaHornoAlta'
     ]),
 
     disabled() {
@@ -90,8 +101,14 @@ export default {
 
   methods: {
     ...mapMutations([
-      'setProcessing'
+      'setProcessing',
+      'setFechaHornoAlta'
     ]),
+
+    updateFecha() {
+      console.log('Fecha del componente', this.hornoAlta.fecha)
+      this.setFechaHornoAlta(this.hornoAlta.fecha)
+    },
 
     resetForm() {
       this.hornoAlta = {
@@ -99,24 +116,25 @@ export default {
         articulo: '',
         cantidad: 0,
         rotura: 0,
-        horno: ''
+        horno: '',
+        grupo: ''
       }
     },
 
     save() {
       if(this.disabled) { return }
 
-    this.setProcessing(true)
+        this.setProcessing(true)
 
-    this.$http.post(this.getUrl + 'carga_horno_alta', this.hornoAlta)
-        .then( respuesta => {
-          console.log(respuesta.data)
-          this.resetForm()
-          this.$router.push('/orden-fabricacion')
-        })
-        .catch(e => {
-          console.log(e)
-        })
+        this.$http.post(this.getUrl + 'carga_horno_alta', this.hornoAlta)
+            .then( respuesta => {
+              console.log(respuesta.data)
+              this.resetForm()
+              this.$router.push('/orden-fabricacion')
+            })
+            .catch(e => {
+              console.log(e)
+            })
 
       this.setProcessing(false)
     },
@@ -128,6 +146,7 @@ export default {
           if (respuesta.data.length > 0) {
             //this.ordenes.unshift(this.ofab)
             this.hornoAlta.articulo = respuesta.data[0].articulo
+            this.hornoAlta.grupo = respuesta.data[0].grupo
             //this.closeForm()
           } else {
             console.log('No hay artículo o se ejecuto history.back')
@@ -138,14 +157,16 @@ export default {
   },
   
   created() {
-    this.hornoAlta.fecha = this.getHoy
+    this.hornoAlta.fecha = this.getFechaHornoAlta
     this.getOrdenFabricacion(this.id)
 
   },
+
   updated() {
     //this.blanco.fecha = this.getHoy
     //this.getOrdenFabricacion(this.id)
-  }
+  },
+  
 }
 </script>
 

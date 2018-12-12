@@ -9,25 +9,26 @@
 
         <div class="col m2">
           <label for="modelo">Artículo</label>
-          <input class="_full-width" type="text" v-model="bizcocho.articulo" minlenght="6" maxlength="6" required disabled>
+          <!-- <input class="_full-width" type="text" v-model="bizcocho.articulo" minlenght="6" maxlength="6" required disabled> -->
+          <h5>{{ bizcocho.articulo }}</h5>
         </div>
 
-        <div class="col m3">
+        <div class="col m2">
           <label for="modelo">Cantidad Cargada</label>
           <input class="_full-width" type="number" v-model="bizcocho.cantidad" required>
         </div>
 
-        <div class="col m3">
+        <div class="col m2">
           <label for="modelo">Rotura (Descarga)</label>
           <input class="_full-width" type="number" v-model="bizcocho.rotura">
         </div>
 
-        <div class="col m2">
+        <div class="col m3">
           <label for="hasta">Fecha</label>
-          <input class="_full-width" type="date" v-model="bizcocho.fecha" required>
+          <input class="_full-width" type="date" @change="updateFecha" v-model="bizcocho.fecha" required>
         </div>
 
-        <div class="col m2">
+        <div class="col m3">
           <label for="buscar">&nbsp;</label>
           <button class="_danger" @click="save" v-show="!disabled">Guardar</button>
         </div>
@@ -53,7 +54,8 @@ export default {
         articulo: '',
         cantidad: 0,
         rotura: 0,
-        fecha: this.getHoy
+        fecha: this.getFechaBizcocho,
+        grupo: ''
       }
     }
   },
@@ -62,7 +64,8 @@ export default {
     ...mapGetters([
       'getProcessing',
       'getUrl',
-      'getHoy'
+      'getHoy',
+      'getFechaBizcocho'
     ]),
 
     disabled() {
@@ -83,8 +86,14 @@ export default {
 
   methods: {
     ...mapMutations([
-      'setProcessing'
+      'setProcessing',
+      'setFechaBizcocho'
     ]),
+
+    updateFecha() {
+      console.log('Fecha del componente', this.bizcocho.fecha)
+      this.setFechaBizcocho(this.bizcocho.fecha)
+    },
 
     resetForm() {
       this.bizcocho = {
@@ -121,6 +130,7 @@ export default {
           if (respuesta.data.length > 0) {
             //this.ordenes.unshift(this.ofab)
             this.bizcocho.articulo = respuesta.data[0].articulo
+             this.bizcocho.grupo = respuesta.data[0].grupo
             //this.closeForm()
           } else {
             console.log('No hay artículo o se ejecuto history.back')
@@ -131,7 +141,7 @@ export default {
   },
 
   created() {
-    this.bizcocho.fecha = this.getHoy
+    this.bizcocho.fecha = this.getFechaBizcocho
     this.getOrdenFabricacion(this.id)
 
   },

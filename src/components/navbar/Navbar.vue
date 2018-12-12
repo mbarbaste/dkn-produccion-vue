@@ -15,7 +15,7 @@
       </div>
     </li>
 
-    <li class="dropdown"  style="float:right;">
+    <li class="dropdown"  style="float:right;z-index:10;">
       <!-- <a href="#">Fabricación</a> -->
       <router-link to="/orden-fabricacion">Fabricación</router-link>
       <div class="dropdown-content">

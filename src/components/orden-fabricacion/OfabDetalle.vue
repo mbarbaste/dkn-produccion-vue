@@ -14,11 +14,23 @@
         <hr>
       </div>
 
-      <div class="row">
+      <div class="row" v-if="revData.proceso !== 'revisacion'">
         <p><strong>Fecha:</strong>  {{ revData.fecha | fecha }}</p>
         <p><strong>Cantidad:</strong>  {{ revData.cantidad }}</p>
         <p><strong>Rotura:</strong>  {{ revData.rotura }}</p>
       </div>
+
+      <div class="row" v-if="revData.proceso === 'revisacion'">
+        <p><strong>Fecha:</strong>  {{ revDataR.fecha | fecha }}</p>
+        <p>
+          <strong>1era:&nbsp;</strong>  {{ revDataR.primera }} &nbsp;&nbsp;&nbsp;&nbsp;
+          <strong>2da:&nbsp;</strong>  {{ revDataR.segunda }} &nbsp;&nbsp;&nbsp;&nbsp;
+          <strong>5ta:&nbsp;</strong>  {{ revDataR.quinta }} &nbsp;&nbsp;&nbsp;&nbsp;
+          <strong>Descarte:&nbsp;</strong>  {{ revDataR.dte }} &nbsp;&nbsp;&nbsp;&nbsp;
+          </p>
+      </div>
+
+
       <hr>
       <div class="row" v-if="revData.proceso == 'formacion'">
         <button class="_danger" @click="revFormacion(revData)">Confirmar Reversión Formación</button>
@@ -28,6 +40,9 @@
       </div>
       <div class="row" v-if="revData.proceso == 'hornoAlta'">
         <button class="_danger" @click="revHornoAlta(revData)">Confirmar Reversión Horno de Alta</button>
+      </div>
+      <div class="row" v-if="revData.proceso == 'revisacion'">
+        <button class="_danger" @click="revRevisacion(revDataR)">Confirmar Reversión Revisación</button>
       </div>
 
     </div>
@@ -93,6 +108,12 @@
               <i class="fa fa-exchange" aria-hidden="true"></i>
           </a></td>
         </tr>
+        <tr>
+          <td class="_alignCenter"><b>Totales</b></td>
+          <td class="_alignCenter"><b>{{ getFormacionCantidad }}</b></td>
+          <td class="_alignCenter"><b>{{ getFormacionRotura }}</b></td>
+          <td class="_alignCenter">&nbsp;</td>
+        </tr>
       </tbody>
   </table>
 </fieldset>
@@ -121,6 +142,12 @@
                 <i class="fa fa-exchange" aria-hidden="true"></i>
             </a></td>
           </tr>
+        <tr>
+          <td class="_alignCenter"><b>Totales</b></td>
+          <td class="_alignCenter"><b>{{ getBizcochoCantidad }}</b></td>
+          <td class="_alignCenter"><b>{{ getBizcochoRotura }}</b></td>
+          <td class="_alignCenter">&nbsp;</td>
+        </tr>
         </tbody>
     </table>
   </fieldset>
@@ -151,6 +178,13 @@
               <a v-if="getLevel > 5" @click="revertirHornoAlta(item.id, index)" title="Revertir" class="mano">
                 <i class="fa fa-exchange" aria-hidden="true"></i>
             </a></td>
+          </tr>
+          <tr>
+            <td class="_alignCenter"><b>Totales</b></td>
+            <td class="_alignCenter">&nbsp;</td>
+            <td class="_alignCenter"><b>{{ getHornoAltaCantidad }}</b></td>
+            <td class="_alignCenter"><b>{{ getHornoAltaRotura }}</b></td>
+            <td class="_alignCenter">&nbsp;</td>
           </tr>
         </tbody>
     </table>
@@ -184,12 +218,22 @@
             <td class="_alignCenter">{{ item.dte }}</td>
             <td class="_alignRight">
 
-              <!-- <a v-if="getLevel > 5" @click="revertirRevisacion(item.id, index)" title="Revertir" class="mano">
+            <a v-if="getLevel > 5" @click="revertirRevisacion(item.id, index)" title="Revertir" class="mano">
                 <i class="fa fa-exchange" aria-hidden="true"></i>
-              </a> -->
+              </a> 
 
             </td>
           </tr>
+
+          <tr>
+            <td class="_alignCenter"><b>Totales</b></td>
+            <td class="_alignCenter"><b>{{ getRev1 }}</b></td>
+            <td class="_alignCenter"><b>{{ getRev2 }}</b></td>
+            <td class="_alignCenter"><b>{{ getRev5 }}</b></td>
+            <td class="_alignCenter"><b>{{ getRevD }}</b></td>
+            <td class="_alignCenter">&nbsp;</td>
+          </tr>
+
         </tbody>
     </table>
   </fieldset>
@@ -213,6 +257,9 @@ export default {
     return {
       id: this.$route.params.id,
       showModal: false,
+      formacionCantidad: 0,
+      formacionRotura: 0,
+
       ofab: {
         articulo: '',
         cantidad: 0,
@@ -223,7 +270,8 @@ export default {
         blanco: 0,
         revisacion: 0,
         fecha_fin: '',
-        observaciones: ''
+        observaciones: '',
+        grupo: ''
       },
 
       revData: {
@@ -233,6 +281,18 @@ export default {
         fecha: '',
         cantidad: 0,
         rotura: 0,
+        proceso: ''
+      },
+
+      revDataR: {
+        articulo: '',
+        ordenId:  this.$route.params.id,
+        parteId: 0,
+        fecha: '',
+        primera: 0,
+        segunda: 0,
+        quinta: 0,
+        dte: 0,
         proceso: ''
       },
 
@@ -250,7 +310,17 @@ export default {
       'getProcessing',
       'getUrl',
       'getHoy',
-      'getLevel'
+      'getLevel',
+      'getFormacionCantidad',
+      'getFormacionRotura',
+      'getBizcochoCantidad',
+      'getBizcochoRotura',
+      'getHornoAltaCantidad',
+      'getHornoAltaRotura',
+      'getRev1',
+      'getRev2',
+      'getRev5',
+      'getRevD'
     ])
   },
 
@@ -262,7 +332,17 @@ export default {
 
   methods: {
     ...mapMutations([
-      'setProcessing'
+      'setProcessing',
+      'setFormacionCantidad',
+      'setFormacionRotura',
+      'setBizcochoCantidad',
+      'setBizcochoRotura',
+      'setHornoAltaCantidad',
+      'setHornoAltaRotura',
+      'setRev1',
+      'setRev2',
+      'setRev5',
+      'setRevD'
     ]),
 
     closeModal() {
@@ -309,6 +389,25 @@ export default {
         this.modalTitle = "Revertir Parte de Horno de Alta " + id;
         this.modalId = id;
         this.showModal = true;
+    },
+
+    revertirRevisacion(id, i) {
+      this.revDataR.fecha = this.revisacionList[i].fecha;
+      this.revDataR.primera = this.revisacionList[i].primera;
+      this.revDataR.segunda = this.revisacionList[i].segunda;
+      this.revDataR.quinta = this.revisacionList[i].quinta;
+      this.revDataR.dte = this.revisacionList[i].dte;
+
+      this.revDataR.parteId = id;
+      this.revData.proceso = 'revisacion';
+      this.revDataR.proceso = 'revisacion';
+      this.revDataR.articulo = this.ofab.articulo;
+
+      this.modalTitle = "Revertir Parte de Revisación " + id;
+      this.modalId = id;
+
+      this.showModal = true;
+
     },
 
     revFormacion(data) {
@@ -365,6 +464,25 @@ export default {
       this.showModal = false;
     },
 
+    revRevisacion(data) {
+      console.log('Se ha iniciado reversion de revisacion', this.revDataR);
+      // Llamada a la API
+      this.$http.post(this.getUrl + 'revertir_revisacion', this.revDataR)
+        .then(respuesta => {
+          if (respuesta.data.status == 'ok') {           
+              console.log('Datos desde API', respuesta.data);
+            //this.$router.push('/ofab-detalle/0')
+            // this.$router.push( {name: 'ofab-detalle', params: { id: data.ordenId } } );
+            this.getOrdenFabricacion(this.id);
+            this.getCargaRevisacion(this.id)
+
+          } else {
+            console.log('Error Intentando enviar data: ', this.revDataR)
+          }
+        })
+      this.showModal = false;
+    },
+
     getOrdenFabricacion(id) {
       this.$http.get(this.getUrl + 'ofab/' + id)
         .then(respuesta => {
@@ -388,6 +506,18 @@ export default {
             // console.log(respuesta.data)
             this.bizcochoList = respuesta.data
 
+            let cantidad = 0
+            let rotura = 0
+
+            this.bizcochoList.forEach(function(obj) {
+                
+                cantidad += (parseInt(obj.cantidad));
+                rotura += (parseInt(obj.rotura));
+            });
+
+            this.setBizcochoCantidad(cantidad)
+            this.setBizcochoRotura(rotura)
+
           } else {
             //console.log('No se encontró bizcocho')
             this.bizcochoList = []
@@ -403,6 +533,18 @@ export default {
             //console.log(respuesta.data)
             this.hornoAltaList = respuesta.data
 
+            let cantidad = 0
+            let rotura = 0
+
+            this.hornoAltaList.forEach(function(obj) {
+                
+                cantidad += (parseInt(obj.cantidad));
+                rotura += (parseInt(obj.rotura));
+            });
+
+            this.setHornoAltaCantidad(cantidad)
+            this.setHornoAltaRotura(rotura)
+
           } else {
             //console.log('No se encontró blanco')
             this.hornoAltaList = []
@@ -415,8 +557,19 @@ export default {
         .then(respuesta => {
           if (respuesta.data.length > 0) {
 
-            //console.log(respuesta.data)
-            this.formacionList = respuesta.data
+            this.formacionList = respuesta.data            
+
+            let cantidad = 0
+            let rotura = 0
+
+            this.formacionList.forEach(function(obj) {
+                
+                cantidad += (parseInt(obj.cantidad));
+                rotura += (parseInt(obj.rotura));
+            });
+
+            this.setFormacionCantidad(cantidad)
+            this.setFormacionRotura(rotura)
 
           } else {
             //console.log('No se encontró formacion')
@@ -432,6 +585,24 @@ export default {
 
             //console.log(respuesta.data)
             this.revisacionList = respuesta.data
+
+            let primera = 0
+            let segunda = 0
+            let quinta = 0
+            let dte = 0
+
+            this.revisacionList.forEach(function(obj) {
+                
+                primera += (parseInt(obj.primera));
+                segunda += (parseInt(obj.segunda));
+                quinta += (parseInt(obj.quinta));
+                dte += (parseInt(obj.dte));
+            });
+
+            this.setRev1(primera)
+            this.setRev2(segunda)
+            this.setRev5(quinta)
+            this.setRevD(dte)
 
           } else {
             //console.log('No se encontró formacion')

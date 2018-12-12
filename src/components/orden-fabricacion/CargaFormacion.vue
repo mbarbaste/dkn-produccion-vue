@@ -10,7 +10,8 @@
 
         <div class="col m3">
           <label for="modelo">Artículo</label>
-          <input class="_full-width" type="text" v-model="formacion.articulo" minlenght="6" maxlength="6" required disabled>
+          <!-- <input class="_full-width" type="text" v-model="formacion.articulo" minlenght="6" maxlength="6" required disabled> -->
+          <h5>{{ formacion.articulo }}</h5>
         </div>
 
         <div class="col m2">
@@ -25,7 +26,7 @@
 
         <div class="col m3">
           <label for="hasta">Fecha</label>
-          <input class="_full-width" type="date" v-model="formacion.fecha" required>
+          <input class="_full-width" type="date" @change="updateFecha" v-model="formacion.fecha" required>
         </div>
 
         <div class="col m2">
@@ -54,7 +55,9 @@ export default {
         articulo: '',
         cantidad: 0,
         rotura: 0,
-        fecha: this.getHoy
+        fecha: this.getFechaFormacion,
+        maquina: '',
+        grupo: ''
       }
     }
   },
@@ -63,7 +66,8 @@ export default {
     ...mapGetters([
       'getProcessing',
       'getUrl',
-      'getHoy'
+      'getHoy',
+      'getFechaFormacion'
     ]),
 
     disabled() {
@@ -84,15 +88,23 @@ export default {
 
   methods: {
     ...mapMutations([
-      'setProcessing'
+      'setProcessing',
+      'setFechaFormacion'
     ]),
+
+    updateFecha() {
+      //console.log('Fecha del componente', this.formacion.fecha)
+      this.setFechaFormacion(this.formacion.fecha)
+    },
 
     resetForm() {
       this.formacion = {
         //ofab_id: this.$route.params.id,
         articulo: '',
         cantidad: 0,
-        rotura: 0
+        rotura: 0,
+        grupo: '',
+        maquina: ''
       }
     },
 
@@ -100,6 +112,9 @@ export default {
       if(this.disabled) { return }
 
       this.setProcessing(true)
+
+      console.log(this.formacion);
+      //
 
       this.$http.post(this.getUrl + 'carga_formacion', this.formacion)
         .then( respuesta => {
@@ -121,6 +136,8 @@ export default {
           if (respuesta.data.length > 0) {
             //this.ordenes.unshift(this.ofab)
             this.formacion.articulo = respuesta.data[0].articulo
+            this.formacion.grupo = respuesta.data[0].grupo
+            this.formacion.maquina = respuesta.data[0].maquina
             //this.closeForm()
           } else {
             console.log('No hay artículo o se ejecuto history.back')
@@ -131,7 +148,7 @@ export default {
   },
 
   created() {
-    this.formacion.fecha = this.getHoy
+    this.formacion.fecha = this.getFechaFormacion
     this.getOrdenFabricacion(this.id)
 
   },

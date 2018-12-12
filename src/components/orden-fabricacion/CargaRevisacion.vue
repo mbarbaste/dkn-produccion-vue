@@ -48,7 +48,7 @@
           <h4> {{ ofab.id }}</h4>
         </div>
 
-        <div class="col m3">
+        <div class="col m2">
           <h6>Artículo</h6>
           <h4> {{ ofab.articulo }}</h4>
         </div>
@@ -57,9 +57,22 @@
             &nbsp;
         </div>
 
+        <div class="col m2">
+          <h6>Horno</h6>
+          <select class="_width100" id="horno" v-model="revisacion.horno">
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25 Z1">25 Z1</option>
+            <option value="25 Z2">25 Z2</option>
+          </select>
+        </div>
+
         <div class="col m3">
           <h6>Fecha Revisación</h6>
-          <input class="_full-width" v-model="revisacion.fecha" type="date" required>
+          <input class="_full-width" @change="updateFecha" v-model="revisacion.fecha" type="date" required>
         </div>
 
         <div class="col m1">
@@ -228,7 +241,7 @@
 
       <div class="row">
         <div class="col m2 row10 _alignRight">17</div>
-        <div class="col m4 row10 _alignLeft">CABETA PEGADO</div>
+        <div class="col m4 row10 _alignLeft">CAZETA PEGADO</div>
         <div class="col m3 row10"><input type="text" id="d17" name="d17" v-on:focus="selectFocus($event)" v-on:keyup="sendTab('d16', 'd18', $event)" v-model="revisacion.d17"></div>
         <div class="col m3 row10">&nbsp;</div>
       </div>
@@ -328,18 +341,21 @@ export default {
         fecha_inicio: '',
         formacion: 0,
         bizcocho: 0,
-        blanco: 0,
+        horno_alta: 0,
         fecha_fin: '',
-        observaciones: ''
+        observaciones: '',
+        grupo: ''
       },
       revisacion: {
         ofab_id: 0,
-        fecha: '',
+        fecha: this.getFechaRevisacion,
         articulo: '',
         primera: 0,
         segunda: 0,
         quinta: 0,
         descarte: 0,
+        horno: '',
+        grupo: '',
         d01: 0,
         d02: 0,
         d03: 0,
@@ -372,13 +388,26 @@ export default {
     ...mapGetters([
       'getProcessing',
       'getUrl',
-      'getHoy'
+      'getHoy',
+      'getFechaRevisacion'
     ])
   },
+  
+  created() {
+    this.revisacion.fecha = this.getFechaRevisacion
+
+  },
+
   methods: {
     ...mapMutations([
-      'setProcessing'
+      'setProcessing',
+      'setFechaRevisacion'
     ]),
+
+    updateFecha() {
+      console.log('Fecha del componente', this.revisacion.fecha)
+      this.setFechaRevisacion(this.revisacion.fecha)
+    },
 
     clearAlert() {
       this.showAlert = false
@@ -389,13 +418,20 @@ export default {
       console.log('Sending POST request')
 
       e.preventDefault();
+
+      if( this.revisacion.horno === '' ) {
+        console.log('Debe seleccionar Horno')
+        return
+      } else {
+        console.log('Horno seleccionado:', this.revisacion.horno)
+      }
     
       // Chequeo que 1era o 2da o 5ta o descarte son > 0
 
-      if(this.revisacion.primera == 0 
-          && this.revisacion.segunda == 0 
-          && this.revisacion.quinta == 0 
-          && this.revisacion.descarte == 0) {
+      if(this.revisacion.primera === 0 
+          && this.revisacion.segunda === 0 
+          && this.revisacion.quinta === 0 
+          && this.revisacion.descarte === 0) {
 
             console.log('Hay ceros')
             return;
@@ -404,6 +440,7 @@ export default {
       
       this.revisacion.ofab_id = this.ofab.id;
       this.revisacion.articulo = this.ofab.articulo
+      this.revisacion.grupo = this.ofab.grupo
 
       this.setProcessing(true)
 
@@ -455,8 +492,8 @@ export default {
 
             this.showParte = true;
             this.showAlert = false;
-            this.revisacion.fecha = this.getHoy;
-            console.log(this.ofab)
+            this.revisacion.fecha = this.getFechaRevisacion;
+            //console.log(this.ofab)
 
           } else {
             this.showAlert = true
@@ -543,13 +580,8 @@ export default {
       document.getElementById(e.target.id).select();
     }
   },
-  computed: {
-    ...mapGetters([
-      'getProcessing',
-      'getUrl',
-      'getHoy'
-    ])
-  }
+  
+
 }
 </script>
 

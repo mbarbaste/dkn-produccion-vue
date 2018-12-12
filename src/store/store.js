@@ -14,13 +14,84 @@ export default new Vuex.Store({
     showModal: '',
     processing: false,
     hoy: new Date().toISOString().substring(0, 10),
-    url: 'http://apidata.dynalias.com/api/',
+    fechaBizcocho: new Date().toISOString().substring(0, 10),
+    fechaFormacion: new Date().toISOString().substring(0, 10),
+    fechaHornoAlta: new Date().toISOString().substring(0, 10),
+    fechaRevisacion: new Date().toISOString().substring(0, 10),
+    url: 'https://apidata.dynalias.com/api/',
     desde: new Date().toISOString().substring(0, 10),
-    hasta: new Date().toISOString().substring(0, 10)
+    hasta: new Date().toISOString().substring(0, 10),
     //url: 'http://slimapp.com/api/'
+    formacionCantidad: 0,
+    formacionRotura: 0,
+    bizcochoCantidad: 0,
+    bizcochoRotura: 0,
+    hornoAltaCantidad: 0,
+    hornoAltaRotura: 0,
+    rev1: 0,
+    rev2: 0,
+    rev5: 0,
+    revd: 0
   },
 
   getters: {
+
+    getRev1: state => {
+      return state.rev1
+    },
+
+    getRev2: state => {
+      return state.rev2
+    },
+
+    getRev5: state => {
+      return state.rev5
+    },
+
+    getRevD: state => {
+      return state.revd
+    },
+
+    getHornoAltaCantidad: state => {
+      return state.hornoAltaCantidad
+    },
+
+    getHornoAltaRotura: state => {
+      return state.hornoAltaRotura
+    },
+
+    getBizcochoCantidad: state => {
+      return state.bizcochoCantidad
+    },
+
+    getBizcochoRotura: state => {
+      return state.bizcochoRotura
+    },
+
+    getFormacionCantidad: state => {
+      return state.formacionCantidad
+    },
+
+    getFormacionRotura: state => {
+      return state.formacionRotura
+    },
+
+    getFechaBizcocho: state => {
+      return state.fechaBizcocho
+    },
+
+    getFechaFormacion: state => {
+      return state.fechaFormacion
+    },
+
+    getFechaHornoAlta: state => {
+      return state.fechaHornoAlta
+    },
+
+    getFechaRevisacion: state => {
+      return state.fechaRevisacion
+    },
+
     getUrl: state => {
       return state.url
     },
@@ -66,9 +137,68 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
+    setRev1: (state, payload) => {
+      state.rev1 = payload
+    },
+
+    setRev2: (state, payload) => {
+      state.rev2 = payload
+    },
+
+    setRev5: (state, payload) => {
+      state.rev5 = payload
+    },
+
+    setRevD: (state, payload) => {
+      state.revd = payload
+    },
+
+    setHornoAltaCantidad: (state, payload) => {
+      state.hornoAltaCantidad = payload
+    },
+
+    setHornoAltaRotura: (state, payload) => {
+      state.hornoAltaRotura = payload
+    },
+
+    setFormacionCantidad: (state, payload) => {
+      state.formacionCantidad = payload
+    },
+
+    setFormacionRotura: (state, payload) => {
+      state.formacionRotura = payload
+    },
+
+    setBizcochoCantidad: (state, payload) => {
+      state.bizcochoCantidad = payload
+    },
+
+    setBizcochoRotura: (state, payload) => {
+      state.bizcochoRotura = payload
+    },
+
     setProcessing: (state, payload) => {
       state.processing = payload
-      console.log("Processing:" , payload)
+      //console.log("Processing:" , payload)
+    },
+
+    setFechaFormacion: (state, payload) => {
+      state.fechaFormacion = payload
+    },
+
+    setFechaBizcocho: (state, payload) => {
+      state.fechaBizcocho = payload
+      console.log('Payload', payload)
+    },
+
+    setFechaHornoAlta: (state, payload) => {
+      state.fechaHornoAlta = payload
+    },
+
+    setFechaRevisacion: (state, payload) => {
+      state.fechaRevisacion = payload
+      console.log('Payload', payload)
     },
 
     setLogged: (state, payload) => {

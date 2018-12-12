@@ -11,40 +11,34 @@
 
       <div class="row">
         <p></p>
-        <p><strong>Consulta de Stock</strong></p>
+        <p><strong>Consulta de Stock - {{ articulo.articulo }} - {{ articulo.descrip }}</strong></p>
         <hr>
-      </div>
+      
 
-      <div class="row">
-          <div class="col m2 _alignLeft">
-            <label for="articulo">Artículo</label>
-            <input class="_full-width" id="articulo" type="text" v-model="articulo.articulo" placeholder="Artículo" disabled>
-          </div>
+      <table class="_width100">
+    <thead>
+      <tr>
+        <th class="_alignCenter">Formación</th>
+        <th class="_alignCenter">Bizcocho</th>
+        <th class="_alignCenter">H.Alta</th>
+        <th class="_alignCenter">1era</th>
+        <th class="_alignCenter">2da</th>
+        <th class="_alignCenter">5ta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="_alignCenter numeros">{{articulo.stock_formacion}}</td>
+        <td class="_alignCenter numeros">{{articulo.stock_bizcocho}}</td>
+        <td class="_alignCenter numeros">{{articulo.stock_horno_alta}}</td>
+        <td class="_alignCenter numeros">{{articulo.stock_revisacion_1}}</td>
+        <td class="_alignCenter numeros">{{articulo.stock_revisacion_2}}</td>
+        <td class="_alignCenter numeros">{{articulo.stock_revisacion_5}}</td>
+      </tr>
+    </tbody>
+  </table>
 
-          <div class="col m4 _alignLeft">
-            <label for="descrip">Descripción</label>
-            <input class="_full-width" id="descrip" type="text" v-model="articulo.descrip" placeholder="Descripción" disabled>
-          </div>
-
-          <div class="col m2 _alignLeft">
-            <label for="formacion">St.Formación</label>
-            <input class="_full-width" id="formacion" type="text" v-model="articulo.stock_formacion" disabled>
-          </div>
-
-          <div class="col m2 _alignLeft">
-            <label for="bizcocho">St.Bizcocho</label>
-            <input class="_full-width" id="bizcocho" type="text" v-model="articulo.stock_bizcocho" disabled>
-          </div>
-          <div class="col m2 _alignLeft">
-            <label for="blanco">St.Blanco</label>
-            <input class="_full-width" id="blanco" type="text" v-model="articulo.stock_blanco" disabled>
-          </div>
-          <!-- <div class="col m2 _alignLeft">
-            <label for="acciones">&nbsp;</label>
-            <button class="_primary" @click="closeModal">Cerrar</button>
-          </div> -->
-      </div>
-
+</div>
     </div>
   </div>
 
@@ -53,18 +47,18 @@
 
       <div class="col m2">
         <label for="desde">Desde</label>
-        <input class="_full-width" type="date" :input="getOrdenes" v-model="desde" required>
+        <input class="_full-width" type="date" @change="getOrdenes" :input="getOrdenes" v-model="desde" required>
 
       </div>
 
       <div class="col m2">
         <label for="hasta">Hasta</label>
-        <input class="_full-width" type="date" v-model="hasta" required>
+        <input class="_full-width" type="date" @change="getOrdenes" v-model="hasta" required>
       </div>
 
       <div class="col m1">
         <label for="modelo">Modelo</label>
-        <input class="_full-width" :onkeyup="getOrdenes" type="text" v-model="articuloSearch" maxlength="6">
+        <input class="_full-width" @keyup.enter="getOrdenes" type="text" v-model="articuloSearch" maxlength="6">
       </div>
 
       <div class="col m2">
@@ -197,204 +191,221 @@
 </template>
 
 <script>
-
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   data() {
     return {
       showModal: false,
       ofab: {
-        articulo: '',
+        articulo: "",
         cantidad: 0,
-        maquina: '',
-        fecha_inicio: '',
-        fecha_fin: '',
-        molde: '',
-        formacion: '',
-        bizcocho: '',
-        blanco: '',
-        revisacion: '',
-        formacion_cerrada_fecha: ''
+        maquina: "",
+        fecha_inicio: "",
+        fecha_fin: "",
+        molde: "",
+        formacion: "",
+        bizcocho: "",
+        horno_alta: "",
+        revisacion: "",
+        formacion_cerrada_fecha: ""
       },
       articulo: {
         id: 0,
-        articulo: '',
-        descrip: '',
+        articulo: "",
+        descrip: "",
         stock_formacion: 0,
-        stock_blanco: 0,
+        stock_horno_alta: 0,
         stock_bizcocho: 0,
-        stock_revisacion: 0
+        stock_revisacion_1: 0,
+        stock_revisacion_2: 0,
+        stock_revisacion_5: 0
       },
       ordenes: [],
-      hoy: '',
-      desde: '',
-      hasta: '',
-      modelo: '',
-      articuloSearch: '',
-      maquinaSearch: 'todas',
-      estadoSearch: 'todos',
+      hoy: "",
+      desde: "",
+      hasta: "",
+      modelo: "",
+      articuloSearch: "",
+      maquinaSearch: "todas",
+      estadoSearch: "todos",
       chequeado: false,
-      check: '',
+      check: "",
       showModal: false
-    }
+    };
   },
 
   computed: {
     ...mapGetters([
-      'getProcessing',
-      'getUrl',
-      'getHoy',
-      'getDesde',
-      'getHasta',
-      'getLevel'
+      "getProcessing",
+      "getUrl",
+      "getHoy",
+      "getDesde",
+      "getHasta",
+      "getLevel",
     ]),
 
     reporte() {
-      return 'http://produccion.dynalias.com/reportes/pdf/ofab_lista?q=' + this.desde + '|' + this.hasta + '|' + this.articuloSearch + '|' + this.maquinaSearch + '|' + this.estadoSearch
+      return (
+        "http://produccion.dynalias.com/reportes/pdf/ofab_lista?q=" +
+        this.desde +
+        "|" +
+        this.hasta +
+        "|" +
+        this.articuloSearch +
+        "|" +
+        this.maquinaSearch +
+        "|" +
+        this.estadoSearch
+      );
     },
 
     totalPiezas() {
-      let cantidadPiezas = 0
+      let cantidadPiezas = 0;
       for (let articulo of this.ordenes) {
         cantidadPiezas += parseInt(articulo.cantidad);
       }
-      return cantidadPiezas
+      return cantidadPiezas;
     }
   },
 
   created() {
     //this.getHoy()
-    this.desde = this.getDesde
-    this.hasta = this.getHasta
-    this.setProcessing(true)
-    this.getOrdenes()
+    this.desde = this.getDesde;
+    this.hasta = this.getHasta;
+    this.setProcessing(true);
+    this.getOrdenes();
   },
 
   methods: {
     getOrdenes() {
-      this.setDesde(this.desde)
-      this.setHasta(this.hasta)
-      this.setProcessing(true)
+      this.setDesde(this.desde);
+      this.setHasta(this.hasta);
+      this.setProcessing(true);
 
-      let articuloSearch = ''
-      let maquinaSearch = ''
-      let estadoSearch = ''
+      let articuloSearch = "";
+      let maquinaSearch = "";
+      let estadoSearch = "";
 
       if (this.articuloSearch.length > 0) {
-        articuloSearch = '/' + this.articuloSearch
+        articuloSearch = "/" + this.articuloSearch;
       } else {
-        articuloSearch = '/todos'
+        articuloSearch = "/todos";
       }
 
-        maquinaSearch = '/' + this.maquinaSearch
-        estadoSearch = '/' + this.estadoSearch
+      maquinaSearch = "/" + this.maquinaSearch;
+      estadoSearch = "/" + this.estadoSearch;
 
-      this.$http.get(this.getUrl + 'ofab/' + this.desde + '/' + this.hasta + articuloSearch + maquinaSearch + estadoSearch)
+      this.$http
+        .get(
+          this.getUrl +
+            "ofab/" +
+            this.desde +
+            "/" +
+            this.hasta +
+            articuloSearch +
+            maquinaSearch +
+            estadoSearch
+        )
         .then(respuesta => {
-          this.ordenes = respuesta.data
-          //console.log(respuesta.data)
-          this.setProcessing(false)
-        })
-      
+          this.ordenes = respuesta.data;
+          // console.log(respuesta.data)
+          this.setProcessing(false);
+        });
     },
 
-    ...mapMutations([
-      'setProcessing',
-      'setDesde',
-      'setHasta'
-    ]),
+    ...mapMutations(["setProcessing", "setDesde", "setHasta"]),
 
     closeForm() {
-      this.setProcessing(false)
-      this.showModal = false
-      this.resetForm()
+      this.setProcessing(false);
+      this.showModal = false;
+      this.resetForm();
     },
 
     resetForm() {
       this.ofab = {
-        articulo: '',
+        articulo: "",
         cantidad: 0,
-        maquina: ''
-      }
-      this.getHoy
+        maquina: ""
+      };
+      this.getHoy;
     },
 
     bizcocho(id) {
-      this.setProcessing(true)
-      this.$router.push( {name: 'carga-bizcocho', params: { id: id } })
+      this.setProcessing(true);
+      this.$router.push({ name: "carga-bizcocho", params: { id: id } });
     },
 
     hornoAlta(id) {
-      this.setProcessing(true)
-      this.$router.push( {name: 'carga-horno-alta', params: { id: id } })
+      this.setProcessing(true);
+      this.$router.push({ name: "carga-horno-alta", params: { id: id } });
     },
 
     formacion(id) {
-      this.setProcessing(true)
-      this.$router.push( {name: 'carga-formacion', params: { id: id } })
+      this.setProcessing(true);
+      this.$router.push({ name: "carga-formacion", params: { id: id } });
     },
 
     detalle(id) {
-      this.setProcessing(true)
-      this.$router.push( {name: 'ofab-detalle', params: { id: id } })
+      this.setProcessing(true);
+      this.$router.push({ name: "ofab-detalle", params: { id: id } });
     },
 
     cerrar(id) {
-      this.setProcessing(true)
-      this.$router.push( {name: 'orden-fabricacion-cerrar', params: { id: id } })
+      this.setProcessing(true);
+      this.$router.push({
+        name: "orden-fabricacion-cerrar",
+        params: { id: id }
+      });
     },
 
     stock(articulo) {
-      this.$http.get(this.getUrl + 'stocks/' + articulo)
-        .then(respuesta => {
-
-            this.articulo = respuesta.data[0]
-            this.showModal = true
-
-        })
+      this.$http.get(this.getUrl + "stocks/" + articulo).then(respuesta => {
+        this.articulo = respuesta.data[0];
+        this.showModal = true;
+      });
     },
-    
+
     closeModal() {
       this.showModal = false;
     }
   }
-}
+};
 </script>
 <style scoped>
 .faprint {
   font-size: 30px;
-  color: #2F3E9E;
+  color: #2f3e9e;
 }
 
 .faformacion {
-  color: #2F3E9E;
+  color: #2f3e9e;
 }
 
 .faformacion:hover {
-  color: #3E50B4;
+  color: #3e50b4;
   cursor: pointer;
 }
 
 .faprint:hover {
   font-size: 30px;
-  color: #3E50B4;
+  color: #3e50b4;
   cursor: pointer;
 }
 
 .faplus {
   font-size: 30px;
-  color: #FE5621;
+  color: #fe5621;
 }
 
 .fasearch {
   font-size: 30px;
-  color: #378D3B;
+  color: #378d3b;
 }
 
 .fasearch:hover {
   font-size: 30px;
-  color: #4BAE4F;
+  color: #4bae4f;
 }
 
 .faplus:hover {
@@ -404,10 +415,20 @@ export default {
 }
 
 .azul {
-  color: #2F3E9E;
+  color: #2f3e9e;
 }
 
 .azul:hover {
-  color: #3E50B4;
+  color: #3e50b4;
+}
+
+.paleft {
+  padding-left: 120px;
+  font-size: 1.3em;
+  color: #000;
+}
+
+.numeros {
+  font-size: 1.5em;
 }
 </style>

@@ -106,10 +106,14 @@ export default {
     closeErrorArticulo() {
       this.errorArticulo = false;
     },
+
     save(e) {
       e.preventDefault()
       if (this.disabled) return
+
       this.setProcessing(true)
+
+      //console.log('Envio de Peticion de ALTA DE OFAB')
 
       this.$http.post(this.getUrl + 'ofab', this.ofab)
         .then(respuesta => {
@@ -125,7 +129,8 @@ export default {
 
           } 
 
-
+          this.setProcessing(false)
+         // console.log(respuesta);
         })
     },
     ...mapMutations([
