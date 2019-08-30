@@ -32,7 +32,7 @@
 
         <div class="col m2"  v-if="ofabSearch.length != 0">
           <!-- <a :href="reporte" target="_blank"> -->
-              <i title="Imprimir" class="fa fa-print faprint" aria-hidden="true"></i>
+              <!-- <i title="Imprimir" class="fas fa-print faprint" aria-hidden="true"></i> -->
           <!-- </a> -->
         </div>
 
@@ -80,7 +80,7 @@
         </div>
 
         <div class="col m1">
-            <i @click="resetCarga" title="Cerrar" class="fa fa-close fared" aria-hidden="true"></i>
+            <a @click="resetCarga" ><i title="Cerrar" class="fas fa-times-circle fared" aria-hidden="true"></i></a>
         </div>
 
       </div>

@@ -9,7 +9,10 @@ import router from './router'
 import store from './store/store'
 import './assets/css/beauter.css'
 
-import 'font-awesome/css/font-awesome.css'
+// import 'font-awesome/css/font-awesome.css'
+
+//import 'vue-material-design-icons/styles.css';
+//import './assets/fontawesome/css/fontawesome.min.css'
 
 Vue.http = Vue.prototype.$http = axios
 

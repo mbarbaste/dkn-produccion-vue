@@ -13,6 +13,13 @@
 import Navbar from '@/components/navbar/Navbar';
 import { mapGetters } from 'vuex'
 
+import fontawesome from "@fortawesome/fontawesome";
+import brands from "@fortawesome/fontawesome-free-brands";
+import solid from "@fortawesome/fontawesome-free-solid";
+import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
+
+fontawesome.library.add(brands, solid);
+
 export default {
 
   computed: {
