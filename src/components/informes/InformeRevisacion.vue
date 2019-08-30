@@ -55,9 +55,9 @@
 						<option value="Todas">Todas</option>
             <option value="PG">PLATO GRANDE</option>
             <option value="PC">PLATO CHICO</option>
-            <option value="F ">FUENTES</option>
-            <option value="T">TAZAS</option>
-            <option value="P ">PIEZAS COLADAS</option>
+            <option value="FU">FUENTES</option>
+            <option value="TA">TAZAS</option>
+            <option value="CO">PIEZAS COLADAS</option>
           </select>
 				</div>
       	<div class="col m5 row10">&nbsp;</div>
@@ -79,7 +79,7 @@
 						<option value="d09">09- BURBUJA GRANDE</option>
 						<option value="d10">10- DESPAREJO ESMALTE</option>
 
-						<option value="d11">11- RASPADO ESMALTE</option>
+						<option value="d11">11- SALTADO ESMALTE</option>
             <option value="d12">12- RAJADO ESMALTE</option>
             <option value="d13">13- CACHADO ESMALTE</option>
             <option value="d14">14- SALTADO ESMALTE MANIJA</option>
@@ -109,26 +109,42 @@
 
 		<fieldset v-if="showInforme">
 			<h5>Resultados</h5>
-			<table align=center>
+      <div class="col m5">
+        <table align=center>
         <tr><td class="_alignLeft">Cantidad Total: <b>{{cantidadTotal}}</b></td></tr>
 				<tr><td class="_alignLeft">Primera:&nbsp;&nbsp;&nbsp;<b>{{primera}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{porcentajePrimera}}%)</td></tr>
 				<tr><td class="_alignLeft">Segunda:&nbsp;&nbsp;&nbsp;<b>{{segunda}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{porcentajeSegunda}}%)</td></tr>
 				<tr><td class="_alignLeft">Quinta:&nbsp;&nbsp;&nbsp;<b>{{quinta}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{porcentajeQuinta}}%)</td></tr>
 				<tr><td class="_alignLeft">Descarte:&nbsp;&nbsp;&nbsp;<b>{{dte}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{porcentajeDte}}%)</td></tr>
+				<tr v-if="cantidadDefecto > 0"><td class="_alignLeft">Cantidad con Defectos:&nbsp;&nbsp;&nbsp;<b>{{cantidadDefecto}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{porcentajeDefecto}}%)</td></tr>
+				
 			</table>
-
-			<input type="button" class=" _danger button"  @click="clickCerrarInforme($event)" value="Cerrar">
+      </div>
+			
+      <div class="col m7">
+        <Graficos :tipo="tipo" :data="data"></Graficos>
+      </div>
+      <br><br>
+			<!-- <input type="button" class=" _danger button"  @click="clickCerrarInforme($event)" value="Cerrar"> -->
 
 		</fieldset>
+		<div  v-if="showInforme">
+			<br>
+			<input type="button" class=" _danger button"  @click="clickCerrarInforme($event)" value="Cerrar">
+		</div>
+		
 
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import Graficos from '@/components/common/Graficos.vue'
 
 export default {
-	
+	components: {
+    Graficos
+  },
 	data() {
 		return {
 
@@ -152,7 +168,36 @@ export default {
 			porcentajePrimera: 0,
 			porcentajeSegunda: 0,
 			porcentajeQuinta: 0,
-			porcentajeDte: 0
+			porcentajeDte: 0,
+			cantidadDefecto: 0,
+			porcentajeDefecto: 0,      
+
+			tipo: 'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels:['Primera', 'Segunda', 'Quinta', 'Descarte'],
+        datasets:[{
+          label:'Revisacion',
+          data:[
+            0,
+            0,
+            0,
+            0,
+          ],
+          //backgroundColor:'green',
+          backgroundColor:[
+						'rgba(255, 33, 0, 0.8)',
+            'rgba(54, 162, 235, 0.9)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            '#FF0000'
+          ],
+          borderWidth:1,
+          borderColor:'#777',
+          hoverBorderWidth:1,
+          hoverBorderColor:'#000'
+        }]
+      }
 
 
 		}
@@ -172,12 +217,17 @@ export default {
 	},
 	
 	methods: {
+    ...mapMutations([
+      'setProcessing',
+      'setRefresh'
+    ]),
+
 		clickInformeRevisacion(e) {
 			e.preventDefault();
 			
 			this.$http.post(this.getUrl + 'informe_revisacion', this.informeRevisionParams)
 			.then( respuesta => {
-				//console.log("Respuesta del Server: ", respuesta.data)
+				
 				if(respuesta.data.registros > 0) {
 					this.primera = respuesta.data.primera
 					this.segunda = respuesta.data.segunda
@@ -189,7 +239,13 @@ export default {
 					this.porcentajeDte = respuesta.data.porcentajeDte.toFixed(2)
 					this.cantidadTotal = respuesta.data.cantidadTotal
 
-					//console.log(respuesta.data)
+					this.cantidadDefecto = respuesta.data.cantidadDefecto
+					this.porcentajeDefecto = (respuesta.data.cantidadDefecto / respuesta.data.cantidadTotal * 100).toFixed(2)
+
+          this.data.datasets[0].data = [respuesta.data.primera, respuesta.data.segunda, respuesta.data.quinta, respuesta.data.dte]
+					console.log(this.data)
+					console.log(respuesta.data)
+          this.setRefresh(true)
 					
 				} else {
 					this.primera = 0
@@ -201,9 +257,14 @@ export default {
 					this.porcentajeQuinta = 0
 					this.porcentajeDte = 0
 					this.cantidadTotal =0
+
+					this.data.datasets[0].data = [0, 0, 0, 0]
+          //console.log(this.data)
+          this.setRefresh(true)
 				}
 
 				this.showInforme = true;
+				this.setRefresh(true)
 
 				
 			})
