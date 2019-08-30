@@ -20,7 +20,11 @@
       <router-link to="/orden-fabricacion">Fabricación</router-link>
       <div class="dropdown-content">
         <router-link to="/orden-fabricacion" class="submenu">Ordenes</router-link>
-        <router-link to="/carga-revisacion" class="submenu">Revisación Blanco</router-link>
+        
+        <div  v-if="getLevel > 5">
+          <router-link to="/carga-revisacion" class="submenu">Revisación Blanco</router-link>
+        </div>
+        
         <router-link to="/stocks" class="submenu">Stocks</router-link>
         <router-link to="/informes" class="submenu">Informes</router-link>
       </div>
@@ -56,7 +60,8 @@ export default {
     ...mapGetters([
       'getUser',
       'getLogged',
-      'getProcessing'
+      'getProcessing',
+      'getLevel'
     ])
   },
 

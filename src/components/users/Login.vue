@@ -34,9 +34,21 @@
           </div>
         </div>
 
-        <div class="row" v-if="!getProcessing && !disabled">
+        <div class="row">
           <div class="col m12">
-            <input class=" _danger button" type="submit" value="Login" @click="login($event)">
+            <!-- <div v-if="!getProcessing && !disabled">
+              <input class=" _danger button" type="submit" value="Login">
+            </div>
+
+            <div v-else>
+              <input class=" _success button" type="submit" value="Login" @click="login($event)">
+            </div> -->
+
+            <input class=" _danger button" type="submit" value="Login" @click="login($event)" v-if="!disabled">
+            <input class=" _warning button" type="submit" value="Login" v-else>
+
+
+            
           </div>
         </div>
 

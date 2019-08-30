@@ -5,25 +5,29 @@
     <fieldset>
 
 			<div class="row">
-      	<div class="col m4 row10 _alignRight mtop">Desde / Hasta :</div>
+      	<div class="col m3 row10 _alignRight mtop">Desde / Hasta :</div>
       	<div class="col m3 row10">
 					<input class="_full-width" type="date" v-model="desde" required>
 				</div>
 				<div class="col m3 row10">
 					<input class="_full-width" type="date" v-model="hasta" required>
 				</div>
-				<div class="col m2 row10">&nbsp;</div>
+				<div class="col m3 row10">&nbsp;
+					<a :href="reporteRevisacionExcel" target="_blank">
+            <i title="Descarga Informe de Revisión" class="fa fa-download" aria-hidden="true"></i>
+        </a>
+				</div>
       </div>
 
-				<hr>
+				<!-- <hr> -->
 				<!-- <div class="row">
 					<input type="button" class=" _danger button"  @click="reporteRevisacionExcel($event)" value="Procesar">
 				</div>	 -->
 
-				<a :href="reporteRevisacionExcel" target="_blank">
-            <i title="Imprimir" class="fa fa-print faprint" aria-hidden="true"></i>
-        </a>
-
+				<!-- <a :href="reporteRevisacionExcel" target="_blank">
+            <i title="Descarga Informe de Revisión" class="fa fa-download" aria-hidden="true"></i>
+        </a> -->
+			<br>
     </fieldset>
 
   </div>
@@ -73,6 +77,14 @@ export default {
 
 .mtop {
 	margin-top: 9px;
+}
+
+.fa-download {
+	font-size: 4rem;
+}
+
+.fa-download:hover {
+	color: crimson;
 }
 
 input[type="text"]{ padding: 0px 3px; line-height:0px; width: 60px;}

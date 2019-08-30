@@ -53,7 +53,7 @@
       <div class="row">
       	<div class="col m4 row10 _alignRight mtop">Tipo de Pieza :</div>
       	<div class="col m3 row10">
-					<select class="_width100" id="tipoPieza" v-model="informeParams.tipoPieza" :disabled="showInforme">
+					<select class="_width100" id="tipoPieza" :disabled="showInforme" v-model="informeParams.tipoPieza">
 						<option value="Todas">Todas</option>
             <option value="PG">PLATO GRANDE</option>
             <option value="PC">PLATO CHICO</option>
@@ -78,8 +78,8 @@
 			<h5>Resultados</h5>
 			<table align=center>
 				<tr><td class="_alignLeft">Cantidad:&nbsp;&nbsp;&nbsp;<b>{{cantidad}}</b></td></tr>
-				<tr><td class="_alignLeft">Rotura:&nbsp;&nbsp;&nbsp;<b>{{rotura}}</b></td></tr>
-				<tr><td class="_alignLeft">Porcentaje Rotura:&nbsp;&nbsp;&nbsp;<b>{{porcentajeRotura}}%</b></td></tr>
+				<tr><td class="_alignLeft">Rotura:&nbsp;&nbsp;&nbsp;<b>{{rotura}}</b>&nbsp;&nbsp;&nbsp;&nbsp;( {{porcentajeRotura}}% )</td></tr>
+				<!-- <tr><td class="_alignLeft">Porcentaje Rotura:&nbsp;&nbsp;&nbsp;<b>{{porcentajeRotura}}%</b></td></tr> -->
 			</table>
 
 			<input type="button" class=" _danger button"  @click="clickCerrarInforme($event)" value="Cerrar">
@@ -102,7 +102,7 @@ export default {
         desde: "",
         hasta: "",
         horno: 'Todos',
-        tipoPiezas: 'Todas'
+        tipoPieza: 'Todas'
       },
 
       showInforme: false,

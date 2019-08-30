@@ -31,10 +31,15 @@ export default new Vuex.Store({
     rev1: 0,
     rev2: 0,
     rev5: 0,
-    revd: 0
+    revd: 0,
+    refresh: false
   },
 
   getters: {
+
+    getRefresh: state => {
+      return state.refresh
+    },
 
     getRev1: state => {
       return state.rev1
@@ -137,6 +142,10 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
+    setRefresh: (state, payload) => {
+      state.refresh = payload
+    },
 
     setRev1: (state, payload) => {
       state.rev1 = payload

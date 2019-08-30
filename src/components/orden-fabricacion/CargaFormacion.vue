@@ -14,22 +14,22 @@
           <h5>{{ formacion.articulo }}</h5>
         </div>
 
-        <div class="col m2">
+        <div class="col m3">
           <label for="modelo">Cantidad</label>
           <input class="_full-width" type="number" v-model="formacion.cantidad" required>
         </div>
 
-        <div class="col m2">
+        <!-- <div class="col m2">
           <label for="modelo">Rotura</label>
           <input class="_full-width" type="number" v-model="formacion.rotura">
-        </div>
+        </div> -->
 
         <div class="col m3">
           <label for="hasta">Fecha</label>
           <input class="_full-width" type="date" @change="updateFecha" v-model="formacion.fecha" required>
         </div>
 
-        <div class="col m2">
+        <div class="col m3">
           <label for="buscar">&nbsp;</label>
           <button class="_danger" @click="save" v-show="!disabled">Guardar</button>
         </div>

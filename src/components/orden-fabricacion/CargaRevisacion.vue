@@ -312,6 +312,14 @@
       </div>
     </div>
 
+    <div v-if="showAnulada">
+      <br><br>
+      <div class="alert _danger _shadow _box">
+        <span class="-close" @click="closeAlert">×</span>
+        <strong>Oops!! </strong> La orden <strong>{{ ofabSearch }} está anulada.</strong>.
+      </div>
+    </div>
+
     <div v-if="!showParte">
       <br><br>
       <p>Ingrese Número de Orden de Fabricación</p>
@@ -329,6 +337,7 @@ export default {
       ofabSearch: 0,
       showAlert: false,
       showParte: false,
+      showAnulada: false,
       primera: 0,
       segunda: 0,
       quinta:0,
@@ -490,6 +499,11 @@ export default {
             this.resetForm()
             this.ofab = respuesta.data[0]
 
+            if (this.ofab.fecha_fin !== null) {
+              this.showAnulada = true;
+              return
+            }
+
             this.showParte = true;
             this.showAlert = false;
             this.revisacion.fecha = this.getFechaRevisacion;
@@ -505,9 +519,12 @@ export default {
     },
     closeAlert() {
       this.showAlert = false
+      this.showAnulada = false
     },
     resetCarga() {
       this.showParte = false
+      this.showAlert = false
+      this.showAnulada = false
     },
     resetForm() {
       this.revisacion.ofab_id = 0;

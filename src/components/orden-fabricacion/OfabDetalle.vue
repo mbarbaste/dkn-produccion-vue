@@ -94,7 +94,7 @@
       <tr>
         <th class="_alignCenter">Fecha</th>
         <th class="_alignCenter">Cantidad</th>
-        <th class="_alignCenter">Rotura</th>
+        <th class="_alignCenter">&nbsp;</th>
         <th class="_alignCenter">&nbsp;</th>
       </tr>
       </thead>
@@ -102,7 +102,7 @@
         <tr v-for="(item, index) in formacionList" :key="index">
           <td class="_alignCenter">{{ item.fecha | fecha }}</td>
           <td class="_alignCenter">{{ item.cantidad }}</td>
-          <td class="_alignCenter">{{ item.rotura }}</td>
+          <td class="_alignCenter">&nbsp;</td>
           <td class="_alignRight">
             <a v-if="getLevel > 5" @click="revertirFormacion(item.id, index)" title="Revertir" class="mano">
               <i class="fa fa-exchange" aria-hidden="true"></i>
@@ -111,7 +111,8 @@
         <tr>
           <td class="_alignCenter"><b>Totales</b></td>
           <td class="_alignCenter"><b>{{ getFormacionCantidad }}</b></td>
-          <td class="_alignCenter"><b>{{ getFormacionRotura }}</b></td>
+          <td class="_alignCenter"><b>&nbsp;</b></td>
+          <!-- <td class="_alignCenter"><b>{{ getFormacionRotura }}</b></td> -->
           <td class="_alignCenter">&nbsp;</td>
         </tr>
       </tbody>

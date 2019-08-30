@@ -85,8 +85,8 @@
 			<h5>Resultados</h5>
 			<table align=center>
 				<tr><td class="_alignLeft">Cantidad:&nbsp;&nbsp;&nbsp;<b>{{cantidad}}</b></td></tr>
-				<tr><td class="_alignLeft">Rotura:&nbsp;&nbsp;&nbsp;<b>{{rotura}}</b></td></tr>
-				<tr><td class="_alignLeft">Porcentaje Rotura:&nbsp;&nbsp;&nbsp;<b>{{porcentajeRotura}}%</b></td></tr>
+				<!-- <tr><td class="_alignLeft">Rotura:&nbsp;&nbsp;&nbsp;<b>{{rotura}}</b></td></tr>
+				<tr><td class="_alignLeft">Porcentaje Rotura:&nbsp;&nbsp;&nbsp;<b>{{porcentajeRotura}}%</b></td></tr> -->
 			</table>
 
 			<input type="button" class=" _danger button"  @click="clickCerrarInforme($event)" value="Cerrar">
@@ -117,7 +117,8 @@ export default {
 			cantidad: 0,
 			rotura: 0,
 			porcentajeRotura: 0,
-			registros: 0
+			registros: 0,
+			
     };
   },
 
@@ -140,7 +141,7 @@ export default {
       this.$http
         .post(this.getUrl + "informe_formacion", this.informeParams)
         .then(respuesta => {
-          //console.log("Respuesta del Server: ", respuesta.data)
+          console.log("Parámetros enviados: ", this.informeParams)
           if (respuesta.data.registros > 0) {
 
 						this.registros = respuesta.data.registros;
