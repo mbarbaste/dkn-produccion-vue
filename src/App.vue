@@ -10,15 +10,14 @@
 </template>
 
 <script>
-import Navbar from '@/components/navbar/Navbar';
+import Navbar from '@/components/navbar/Navbar.vue';
 import { mapGetters } from 'vuex'
 
-import fontawesome from "@fortawesome/fontawesome";
-import brands from "@fortawesome/fontawesome-free-brands";
-import solid from "@fortawesome/fontawesome-free-solid";
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faCoffee, faPlus, faSearch, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
-fontawesome.library.add(brands, solid);
+library.add(faCoffee, faPlus, faSearch, faEdit, faTimes)
 
 export default {
 
@@ -30,7 +29,8 @@ export default {
   },
 
   components: {
-    appNav: Navbar
+    appNav: Navbar,
+    FontAwesomeIcon
   }
 }
 </script>

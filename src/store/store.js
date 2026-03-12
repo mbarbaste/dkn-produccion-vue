@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     logged: false,
     username: '',
@@ -21,7 +18,6 @@ export default new Vuex.Store({
     url: 'https://apidata.dynalias.com/api/',
     desde: new Date().toISOString().substring(0, 10),
     hasta: new Date().toISOString().substring(0, 10),
-    //url: 'http://slimapp.com/api/'
     formacionCantidad: 0,
     formacionRotura: 0,
     bizcochoCantidad: 0,
@@ -36,7 +32,6 @@ export default new Vuex.Store({
   },
 
   getters: {
-
     getRefresh: state => {
       return state.refresh
     },
@@ -142,7 +137,6 @@ export default new Vuex.Store({
   },
 
   mutations: {
-
     setRefresh: (state, payload) => {
       state.refresh = payload
     },
@@ -189,7 +183,6 @@ export default new Vuex.Store({
 
     setProcessing: (state, payload) => {
       state.processing = payload
-      //console.log("Processing:" , payload)
     },
 
     setFechaFormacion: (state, payload) => {
@@ -198,7 +191,6 @@ export default new Vuex.Store({
 
     setFechaBizcocho: (state, payload) => {
       state.fechaBizcocho = payload
-      console.log('Payload', payload)
     },
 
     setFechaHornoAlta: (state, payload) => {
@@ -207,7 +199,6 @@ export default new Vuex.Store({
 
     setFechaRevisacion: (state, payload) => {
       state.fechaRevisacion = payload
-      console.log('Payload', payload)
     },
 
     setLogged: (state, payload) => {

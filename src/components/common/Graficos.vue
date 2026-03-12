@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Chart from 'chart.js'
+import { Chart } from 'chart.js'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {

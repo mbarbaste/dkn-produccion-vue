@@ -16,23 +16,14 @@
     <em>Italicized</em>
     <a>Colored</a>
     <u>Underlined</u>
-    <mark>Highlighted</mark></p>
+    <mark>Highlighted</mark>
+  </p>
   <code>printf("Hello, Horld!\n");</code>
   <kbd>Ctrl</kbd>
-  </p>
   <hr>
   <h3>Showing Code</h3>
   <pre>
-    <code>
-      <p>{{ codigo}}
-     <!-- "#include <stdio.h>" -->
-    <!-- int main()
-    {
-    	printf("Hello, World!\n");
-    	return 0;
-    }  -->
-  </p>
-</code>
+    <code>{{ codigo }}</code>
   </pre>
   <hr>
   <h3>BlockQuotes</h3>

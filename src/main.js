@@ -1,28 +1,31 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
+import { createApp } from 'vue'
 import axios from 'axios'
 
-import App from './App'
+import App from './App.vue'
 import router from './router'
-
 import store from './store/store'
 import './assets/css/beauter.css'
 
-// import 'font-awesome/css/font-awesome.css'
+axios.defaults.baseURL = '/api'
 
-//import 'vue-material-design-icons/styles.css';
-//import './assets/fontawesome/css/fontawesome.min.css'
+const fechaFilter = (value) => {
+  if (!value) return ''
+  let anio = value.substring(0,4)
+  let mes = value.substring(5,7)
+  let dia = value.substring(8,10)
+  return dia + '-' + mes + '-' + anio
+}
 
-Vue.http = Vue.prototype.$http = axios
+const app = createApp(App)
+
+app.config.globalProperties.$http = axios
+app.config.globalProperties.$fecha = fechaFilter
+app.config.globalProperties.$filters = {
+  fecha: fechaFilter
+}
 
 router.beforeEach((to, from, next) => {
-  // console.log('To name:', to.name)
-  // console.log('From name:', from.name)
-
   if(store.state.token) {
-    //console.log('Existe token')
-    //console.log('Chequear validez del token')
   } else {
     if (localStorage.getItem("userStatus") !== null) {
       let session
@@ -41,7 +44,6 @@ router.beforeEach((to, from, next) => {
   }
 
   if(to.name == 'home' && (from.name == 'login' || from.name == null) && store.state.logged == false) {
-    //store.state.logged = true
     next('/login')
   } else {
     store.state.logged = true
@@ -49,20 +51,7 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-Vue.filter('fecha', value => {
-  let anio = value.substring(0,4)
-  let mes = value.substring(5,7)
-  let dia = value.substring(8,10)
-  return dia + '-' + mes + '-' + anio
-})
+app.use(router)
+app.use(store)
 
-Vue.config.productionTip = false
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: { App }
-})
+app.mount('#app')

@@ -114,7 +114,7 @@
         </div>
 
         <div class="col m1">
-          <h6>DTE</sup></h6>
+          <h6>DTE</h6>
         </div>
         
         <div class="col m2">
